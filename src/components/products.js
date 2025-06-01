@@ -62,7 +62,7 @@ export default function Products() {
           <p className="mt-2 text-gray-500">Loading products...</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-6">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
               <div key={product.id} className="bg-f2f2f2 p-2 hover:shadow rounded">

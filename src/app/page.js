@@ -16,7 +16,7 @@ export default function HomePage() {
 
         <div className='my-10 px-2'>
               {/* Page Heading */}
-      <h1 className="text-3xl font-bold mb-2 text-center">
+      <h1 className="text-2xl md:text-3xl font-bold mb-2 text-center">
         Online Store Setup (in Next Js)
       </h1>
       {/* Short Description */}
