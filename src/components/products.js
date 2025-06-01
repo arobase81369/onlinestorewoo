@@ -43,7 +43,7 @@ export default function Products() {
     cartItems.some((item) => item.id === productId);
 
   return (
-    <div className="p-4 pt-0">
+    <div className="pt-0">
       {/* Search Bar */}
       <div className="mb-6 mx-auto">
         <input
@@ -65,7 +65,7 @@ export default function Products() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => (
-              <div key={product.id} className="bg-f2f2f2 p-4 hover:shadow rounded">
+              <div key={product.id} className="bg-f2f2f2 p-2 hover:shadow rounded">
                 <Link href={`/product/${product.id}`}>
                   <div>
                     <Image src={product.images[0]?.src}

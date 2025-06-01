@@ -14,7 +14,7 @@ export default function HomePage() {
     <main>
       <div className='max-w-7xl mx-auto'>
 
-        <div className='my-10'>
+        <div className='my-10 px-2'>
               {/* Page Heading */}
       <h1 className="text-3xl font-bold mb-2 text-center">
         Demo Online Store Setup
