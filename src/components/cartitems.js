@@ -27,7 +27,7 @@ export default function CartPage() {
       <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
 
 
-      <div className="md:hidden fixed w-full py-4 px-6  text-lg text-center bg-gray-700 text-white bottom-0">
+      <div className="md:hidden fixed w-full py-4 px-6 start-0 left-0 text-lg text-center bg-gray-700 text-white bottom-0">
       {cartItems.length !== 0 ? (
         <Link href="#cartsection"> <span className="font-bold">{cartItems.length}</span> Cart Items </Link>
       ) : ( <span>No Items in a cart</span>) }

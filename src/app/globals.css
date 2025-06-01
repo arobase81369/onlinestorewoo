@@ -36,3 +36,14 @@ body {
 .bg-white {
   background-color:#FFFFFF;
 }
+
+
+@media screen and (max-width:500px) {
+  .text-lg {
+    font-size: 15px !important;
+  }
+
+  body {
+    font-size:14px !important;
+  }
+}

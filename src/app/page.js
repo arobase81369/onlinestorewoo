@@ -17,11 +17,11 @@ export default function HomePage() {
         <div className='my-10 px-2'>
               {/* Page Heading */}
       <h1 className="text-3xl font-bold mb-2 text-center">
-        Demo Online Store Setup
+        Online Store Setup (in Next Js)
       </h1>
       {/* Short Description */}
       <p className="text-center text-gray-600 mb-8">
-        This is a demo to showcase how to build an online store using <span className='font-bold text-lg'>WordPress WooCommerce APIs</span>.
+        build an online store using <span className='font-bold text-lg'>WordPress WooCommerce APIs</span>.
       </p>
         </div>
       <div className='my-10 md:my-20'>
