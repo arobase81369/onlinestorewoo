@@ -6,10 +6,13 @@ import { useState } from "react";
 import axios from "axios";
 import Link from "next/link";
 import Image from "next/image";
+import { useDispatch } from "react-redux";
+import { clearCart } from "../store/cartSlice";
 
 export default function CheckoutPage() {
   const cartItems = useSelector((state) => state.cart.items);
   const router = useRouter();
+  const dispatch = useDispatch();
 
   const [form, setForm] = useState({
     name: "",
@@ -70,8 +73,9 @@ export default function CheckoutPage() {
       orderData,
       { auth }
     );
-
-    return res.data;
+    const orderlink = `https://arobasedesigns.in/reactwpapi/checkout/order-received/${res.data.number}/?key=${res.data.order_key}`;
+    console.log(orderlink);
+    return orderlink;
   };
 
   const handleSubmit = async (e) => {
@@ -83,8 +87,11 @@ export default function CheckoutPage() {
     }
 
     try {
-      await createWooOrder();
-      router.push("/success");
+   //   await createWooOrder();
+      const orderLink = await createWooOrder();
+      router.push(`/success?link=${encodeURIComponent(orderLink)}`);
+        dispatch(clearCart());
+        
     } catch (error) {
       console.error("Order error:", error);
       alert("Failed to place order");
