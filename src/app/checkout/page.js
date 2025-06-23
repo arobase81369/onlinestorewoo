@@ -1,4 +1,4 @@
-import CheckoutPage from "@/components/checkoutPage";
+import CheckoutPagenew from "@/components/checkoutpagenew";
 
 
 export default function Checkout() {
@@ -6,7 +6,7 @@ export default function Checkout() {
 
     return(
         <div>
-            <CheckoutPage />
+           <CheckoutPagenew />
         </div>
     )
 }

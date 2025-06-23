@@ -67,7 +67,7 @@ export default function Products() {
   return (
     <div className="pt-0">
       {/* Search Bar */}
-      <div className="mb-6 mx-auto">
+      <div className="mb-6 mx-auto hidden">
         <input
           type="text"
           placeholder="Search products..."
@@ -84,7 +84,7 @@ export default function Products() {
           <p className="mt-2 text-gray-500">Loading products...</p>
         </div>
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6">
           {filteredProducts.length > 0 ? (
             filteredProducts.map((product) => {
               const variations = variationsMap[product.id] || [];
@@ -93,7 +93,7 @@ export default function Products() {
               return (
                 <div
                   key={product.id}
-                  className="bg-f2f2f2 p-2 hover:shadow rounded"
+                  className="rounded"
                   onMouseEnter={() =>
                     product.type === "variable" && fetchVariations(product.id)
                   }
@@ -105,12 +105,13 @@ export default function Products() {
                         alt={product.name}
                         width={300}
                         height={300}
-                        className="w-full h-48 object-cover"
+                        className="w-full object-cover rounded-lg"
                       />
                       <h2 className="mt-2 text-lg font-semibold">
                         {product.name}
                       </h2>
-                      <div
+                      <div className="text-gray-500"><span className="text-sm">₹</span> <span className="text-lg font-bold">{product.regular_price}</span></div>
+                      <div className="hidden"
                         dangerouslySetInnerHTML={{ __html: product.price_html }}
                       />
                     </div>
@@ -165,10 +166,10 @@ export default function Products() {
             }
           }}
           disabled={!matched || isInCart(matched?.id)}
-          className={`mt-2 px-4 py-2 rounded w-full ${
+          className={`mt-2 px-4 py-2 rounded-full px-10 ${
             !matched || isInCart(matched?.id)
               ? "bg-gray-600 text-white cursor-not-allowed"
-              : "bg-blue-600 text-white"
+              : "bg-gray-900 text-white"
           }`}
         >
           {!matched
@@ -203,13 +204,13 @@ export default function Products() {
                         ? !selectedVariation || isInCart(selectedVariation.id)
                         : isInCart(product.id)
                     }
-                    className={`mt-2 px-4 py-2 rounded w-full ${
+                    className={`mt-2 px-4 py-2 rounded-full px-10 ${
                       (product.type === "variable" &&
                         (!selectedVariation ||
                           isInCart(selectedVariation?.id))) ||
                       (product.type !== "variable" && isInCart(product.id))
                         ? "bg-gray-600 cursor-not-allowed text-white"
-                        : "bg-blue-600 text-white"
+                        : "bg-gray-900 text-white"
                     }`}
                   >
                     {product.type === "variable"

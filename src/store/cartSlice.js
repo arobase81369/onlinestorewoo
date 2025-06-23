@@ -1,44 +1,48 @@
+// store/cartSlice.js
 import { createSlice } from "@reduxjs/toolkit";
+
+const initialState = {
+  items: typeof window !== "undefined" && localStorage.getItem("cartItems")
+    ? JSON.parse(localStorage.getItem("cartItems"))
+    : [],
+};
+
+const saveToLocalStorage = (items) => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("cartItems", JSON.stringify(items));
+  }
+};
 
 const cartSlice = createSlice({
   name: "cart",
-  initialState: {
-    items: [], // each item: { id, name, price, quantity, ... }
-  },
+  initialState,
   reducers: {
     addToCart: (state, action) => {
-      const existingItem = state.items.find(
-        (item) => item.id === action.payload.id
-      );
-      if (existingItem) {
-        existingItem.quantity += action.payload.quantity || 1;
+      const exists = state.items.find(item => item.id === action.payload.id);
+      if (exists) {
+        exists.quantity += 1;
       } else {
-        state.items.push({ ...action.payload, quantity: action.payload.quantity || 1 });
+        state.items.push(action.payload);
       }
+      saveToLocalStorage(state.items);
     },
-
     removeFromCart: (state, action) => {
-      state.items = state.items.filter((item) => item.id !== action.payload.id);
+      state.items = state.items.filter(item => item.id !== action.payload.id);
+      saveToLocalStorage(state.items);
     },
-
-    clearCart: (state) => {
-      state.items = [];
-    },
-
     updateQuantity: (state, action) => {
-      const item = state.items.find((i) => i.id === action.payload.id);
+      const item = state.items.find(item => item.id === action.payload.id);
       if (item) {
         item.quantity = action.payload.quantity;
       }
+      saveToLocalStorage(state.items);
+    },
+    clearCart: (state) => {
+      state.items = [];
+      localStorage.removeItem("cartItems");
     },
   },
 });
 
-export const {
-  addToCart,
-  removeFromCart,
-  clearCart,
-  updateQuantity,
-} = cartSlice.actions;
-
+export const { addToCart, removeFromCart, updateQuantity, clearCart } = cartSlice.actions;
 export default cartSlice.reducer;

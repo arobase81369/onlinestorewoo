@@ -1,11 +1,15 @@
 'use client';
 
+
+import Orderdetails from '@/components/orderdetails';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 
 export default function SuccessPage() {
   const searchParams = useSearchParams();
   const orderLink = searchParams.get('link'); // Get 'link' parameter
+  console.log("orderlink");
+  console.log(orderLink);
 
   return (
     <div className="max-w-2xl mx-auto p-6 text-center">
@@ -16,7 +20,7 @@ export default function SuccessPage() {
 
       {orderLink ? (
         <Link
-          href={orderLink}
+          href=""
           target="_blank"
           rel="noopener noreferrer"
           className="inline-block bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded"
@@ -27,6 +31,13 @@ export default function SuccessPage() {
         <p className="text-red-500">No order link found.</p>
       )}
       <div><Link href="/" className='bg-gray-700 text-sm px-4 py-2 inline-block my-4 text-white'>Back to List</Link></div>
+
+      <div>
+   
+   <div>
+    <Orderdetails orderid={orderLink}/>
+   </div>
+      </div>
     </div>
   );
 }
