@@ -29,7 +29,7 @@ export default function OrderDetailsPage() {
     };
 
     if (id) fetchOrder();
-  }, [id]);
+  }, [id, cs, ck]);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,

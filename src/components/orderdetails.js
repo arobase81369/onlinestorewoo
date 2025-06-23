@@ -28,7 +28,7 @@ export default function Orderdetails({orderid}) {
     };
 
     if (id) fetchOrder();
-  }, [id]);
+  }, [id, cs, ck]);
 
   if (loading) {
     return (

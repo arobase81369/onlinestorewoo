@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function HeaderMiniCart() {
   const cartItems = useSelector((state) => state.cart.items);
@@ -16,7 +17,7 @@ export default function HeaderMiniCart() {
         ) : (
           cartItems.slice(0, 3).map((item) => (
             <div key={item.id} className="flex items-center gap-2 py-1">
-              <img src={item.images[0]?.src} alt={item.name} className="w-10 h-10 object-cover" />
+              <Image  src={item.images[0]?.src} alt={item.name} className="w-10 h-10 object-cover" width={100} height={100} ></Image>
               <div className="text-sm">{item.name}</div>
             </div>
           ))
