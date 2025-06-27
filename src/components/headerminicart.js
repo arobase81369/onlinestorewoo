@@ -1,15 +1,19 @@
 import { useSelector } from "react-redux";
 import Link from "next/link";
 import Image from "next/image";
+import { ShoppingBasketIcon } from "lucide-react";
+import { PowerOff } from "lucide-react";
 
 export default function HeaderMiniCart() {
   const cartItems = useSelector((state) => state.cart.items);
+  console.log("cartitems");
+  console.log(cartItems);
   const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="relative group">
-      <Link href="/cart">
-        🛒 <span className="text-sm">({totalQty})</span>
+      <Link href="/cart" className="flex gap-2 align-items-center">
+        <ShoppingBasketIcon /> <span className="text">({totalQty})</span>
       </Link>
       <div className="absolute hidden group-hover:block bg-white shadow rounded p-4 z-50 w-64 right-0">
         {cartItems.length === 0 ? (
@@ -17,7 +21,7 @@ export default function HeaderMiniCart() {
         ) : (
           cartItems.slice(0, 3).map((item) => (
             <div key={item.id} className="flex items-center gap-2 py-1">
-              <Image  src={item.images[0]?.src} alt={item.name} className="w-10 h-10 object-cover" width={100} height={100} ></Image>
+              <Image  src={item.image} alt={item.name} className="w-10 h-10 object-cover" width={100} height={100} ></Image>
               <div className="text-sm">{item.name}</div>
             </div>
           ))

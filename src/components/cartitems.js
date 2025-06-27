@@ -54,7 +54,7 @@ export default function CartPage() {
               return (
                 <li key={item.id} className="flex justify-between flex-wrap-mb text-left cart-product-listing align-items-center gap-4 bg-gray-100 p-2 rounded">
                   <div className="flex gap-6 cart-product-col-1">
-                    <Image width={100} height={100} src={item.images?.[0]?.src || "/placeholder.png"} alt={item.name} className="w-16 h-16 object-cover" />
+                    <Image width={100} height={100} src={item.image || "/placeholder.png"} alt={item.name} className="w-16 h-16 object-cover" />
                     <div className="cart-item-content">
                       <h2 className="text-lg font-medium">{item.name}</h2>
                       <p className="text-gray-500" dangerouslySetInnerHTML={{ __html: item.price_html }} />

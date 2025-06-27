@@ -6,6 +6,9 @@ import { increment, decrement } from '../store/counterSlice';
 import Products from '@/components/products';
 import CartPage from '@/components/cartitems';
 import LoginForm from '@/components/login';
+import HeroSlider from '@/components/HeroSlider';
+import CategoriesPage from '@/components/categories';
+import ProductList from '@/components/productslist';
 
 export default function HomePage() {
   const count = useSelector((state) => state.counter.count);
@@ -13,14 +16,12 @@ export default function HomePage() {
 
   return (
     <main>
-      <div className='max-w-7xl mx-auto'>
-      <div className='my-10 md:my-20'>
-        <div className='gap-4'>
-          <div className="p-2 md:p-4 pt-0">
-             <Products />
-             </div>
-             </div>
-      </div>
+      <HeroSlider />
+      <CategoriesPage />
+      <ProductList />
+      <div className='max-w-7xl mx-auto hidden'>
+      <h1 className="text-xl font-bold mb-2 px-2">Our New Arrivals</h1>
+           <div className='p-2'></div>
       </div>
     </main>
 

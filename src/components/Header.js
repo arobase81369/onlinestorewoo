@@ -8,6 +8,7 @@ import SearchBar from "@/components/SearchBar";
 import { useRouter } from "next/navigation";
 import LoginModal from "./LoginModal";
 import HeaderMiniCart from "./headerminicart";
+import { PowerOff } from "lucide-react";
 
 export default function Header() {
   const cartItems = useSelector((state) => state.cart.items);
@@ -31,15 +32,15 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
         {/* Logo */}
         <Link href="/" className="text-xl font-bold text-gray-800">
-          Arobase Store
+          Online Store
         </Link>
         {/** Navigation Bar */}
 
         <div className="flex gap-6">
           <Link href="/">Home</Link>
-          <Link href="/">Our Products</Link>
-          <Link href="/">Offers</Link>
-          <Link href="/">Support</Link>
+          <Link href="/product">Our Products</Link>
+          <Link href="/offers">Offers</Link>
+          <Link href="/support">Support</Link>
         </div>
 
         {/* Search Bar */}
@@ -48,6 +49,7 @@ export default function Header() {
         </div>
 
         {/* Right Section */}
+        <div className="hidden md:block">
         <div className="flex items-center gap-4">
           <div className="space-x-4">
         {user ? (
@@ -55,7 +57,7 @@ export default function Header() {
           <Link href="/myaccount" className="hover:underline">
             Hi, {user.name}
           </Link>
-          <button onClick={() => dispatch(userLogout())} className="mx-2">Logout</button>
+          <button onClick={() => dispatch(userLogout())} className="mx-2"><PowerOff className="text-sm" /></button>
         </div>
         ) : (
           <button
@@ -70,6 +72,7 @@ export default function Header() {
                  {/* Cart */}
              <HeaderMiniCart />
 
+        </div>
         </div>
       </div>
     </header>
