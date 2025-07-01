@@ -4,20 +4,23 @@ import Link from "next/link";
 import { useSelector, useDispatch } from "react-redux";
 import { userLogout } from "@/store/userSlice";
 import { useEffect, useState } from "react";
-import SearchBar from "@/components/SearchBar";
 import { useRouter } from "next/navigation";
-import LoginModal from "./LoginModal";
+import { Menu, X, PowerOff } from "lucide-react";
+import SearchBar from "./SearchBar";
 import HeaderMiniCart from "./headerminicart";
-import { PowerOff } from "lucide-react";
+import LoginModal from "./LoginModal";
 
 export default function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [isLoginOpen, setLoginOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
   const cartItems = useSelector((state) => state.cart.items);
   const user = useSelector((state) => state.user.user);
-  const [isLoginOpen, setLoginOpen] = useState(false);
+
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -28,53 +31,116 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-white shadow">
-      <div className="max-w-7xl mx-auto px-4 py-3 flex flex-col md:flex-row items-center justify-between gap-3">
+    <header className="bg-white shadow sticky top-0 z-50">
+      <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="text-xl font-bold text-gray-800">
           Online Store
         </Link>
-        {/** Navigation Bar */}
 
-        <div className="flex gap-6">
+        {/* Hamburger icon */}
+        <button
+          className="md:hidden text-gray-700"
+          onClick={() => setMenuOpen(!menuOpen)}
+        >
+          {menuOpen ? <X size={24} /> : <Menu size={24} />}
+        </button>
+
+        {/* Desktop Nav */}
+        <nav className="hidden md:flex items-center gap-4 font-medium">
           <Link href="/">Home</Link>
           <Link href="/product">Our Products</Link>
+          <Link href="/brands">Our Brands</Link>
           <Link href="/offers">Offers</Link>
-          <Link href="/support">Support</Link>
-        </div>
+        </nav>
 
-        {/* Search Bar */}
-        <div className="w-full md:w-1/2 hidden">
-          <SearchBar />
-        </div>
+        {/* Right section */}
+        <div className="hidden md:flex items-center gap-4">
+          <div className="w-64">
+            <SearchBar />
+          </div>
 
-        {/* Right Section */}
-        <div className="hidden md:block">
-        <div className="flex items-center gap-4">
-          <div className="space-x-4">
-        {user ? (
-            <div>
-          <Link href="/myaccount" className="hover:underline">
-            Hi, {user.name}
-          </Link>
-          <button onClick={() => dispatch(userLogout())} className="mx-2"><PowerOff className="text-sm" /></button>
+          {user ? (
+            <div className="flex items-center gap-2">
+              <Link
+                href="/myaccount"
+                className="bg-gray-200 px-4 py-2 rounded-full hover:bg-gray-800 hover:text-white"
+              >
+                Hi, {user.name}
+              </Link>
+            </div>
+          ) : (
+            <button
+              onClick={() => setLoginOpen(true)}
+              className="bg-gray-300 px-6 py-2 rounded-full"
+            >
+              Login
+            </button>
+          )}
+
+          {/* Mini Cart */}
+          <HeaderMiniCart />
         </div>
-        ) : (
+      </div>
+
+      {/* Mobile menu */}
+      {menuOpen && (
+        <div className="md:hidden bg-white border-t px-4 pb-4 space-y-4">
+          <div className="flex flex-col gap-3 text-sm font-medium">
+            <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
+            <Link href="/product" onClick={() => setMenuOpen(false)}>Our Products</Link>
+            <Link href="/brands" onClick={() => setMenuOpen(false)}>Our Brands</Link>
+            <Link href="/offers" onClick={() => setMenuOpen(false)}>Offers</Link>
+            <Link href="/support" onClick={() => setMenuOpen(false)}>Support</Link>
+          </div>
           <button
-            onClick={() => setLoginOpen(true)}
-            className="bg-blue-600 px-4 py-2 rounded"
-          >
-            Login
-          </button>
-        )}
-      </div>
-      <LoginModal isOpen={isLoginOpen} onClose={() => setLoginOpen(false)} />
-                 {/* Cart */}
-             <HeaderMiniCart />
+                  onClick={handleLogout}
+                  className="text-sm text-red-600"
+                >
+                  Logout
+                </button>
+        </div>
+      )}
 
-        </div>
-        </div>
-      </div>
+<div className="fixed bottom-0 w-full md:hidden ">
+        <div className="flex justify-between gap-4 align-items-center bg-white py-4 px-5 w-full">
+
+          
+          {/* Login or Logout */}
+          <div className="mt-4">
+            {user ? (
+              <div className="flex justify-between items-center">
+                <Link href="/myaccount" onClick={() => setMenuOpen(false)}>
+                  Hi, {user.name}
+                </Link>
+              </div>
+            ) : (
+              <button
+                onClick={() => {
+                  setLoginOpen(true);
+                  setMenuOpen(false);
+                }}
+                className="w-full bg-gray-300 py-2 rounded"
+              >
+                Login
+              </button>
+            )}
+          </div>
+
+          {/* Mobile Search */}
+          <div className="mt-4">
+            <SearchBar />
+          </div>
+
+          {/* Cart */}
+          <div className="mt-4">
+            <HeaderMiniCart />
+          </div>
+          </div>
+          </div>
+
+      {/* Login Modal */}
+      <LoginModal isOpen={isLoginOpen} onClose={() => setLoginOpen(false)} />
     </header>
   );
 }

@@ -6,13 +6,11 @@ import { PowerOff } from "lucide-react";
 
 export default function HeaderMiniCart() {
   const cartItems = useSelector((state) => state.cart.items);
-  console.log("cartitems");
-  console.log(cartItems);
   const totalQty = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
     <div className="relative group">
-      <Link href="/cart" className="flex gap-2 align-items-center">
+      <Link href="/cart" className="flex gap-2 align-items-center bg-gray-300 px-6 py-2 rounded-full hover:bg-gray-700 hover:text-white">
         <ShoppingBasketIcon /> <span className="text">({totalQty})</span>
       </Link>
       <div className="absolute hidden group-hover:block bg-white shadow rounded p-4 z-50 w-64 right-0">

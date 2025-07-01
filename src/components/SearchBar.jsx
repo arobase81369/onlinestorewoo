@@ -66,12 +66,12 @@ export default function SearchBar() {
   };
 
   return (
-    <div className="relative w-full max-w-md mx-auto mt-4" ref={dropdownRef}>
+    <div className="relative w-full max-w-md mx-auto" ref={dropdownRef}>
       <div className="relative">
         <input
           type="text"
           placeholder="Search for products..."
-          className="w-full px-4 py-2 rounded shadow text-black pr-10"
+          className="border pr-10 px-4 py-2 rounded-full text-black w-full"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />

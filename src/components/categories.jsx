@@ -36,14 +36,14 @@ const CategoriesPage = () => {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-6 hidden">Product Categories</h1>
-      <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-6 gap-6">
         {categories
           .filter((cat) => cat.count > 0)
           .map((category) => (
             <Link
               key={category.id}
               href={`/category/${category.slug}`}
-              className="block bg-white p-4 shadow hover:shadow-md rounded text-center"
+              className="block bg-f2f2f2 rounded-lg p-4 shadow hover:shadow-md rounded text-center "
             >
               {category.image?.src && (
                 <Image
@@ -55,7 +55,7 @@ const CategoriesPage = () => {
                 />
               )}
               <h2 className="mt-2 font-semibold">{category.name}</h2>
-              <p className="text-sm text-gray-600">{category.count} Products</p>
+              <p className="text-sm text-gray-600 fs-12">{category.count} Products</p>
             </Link>
           ))}
       </div>

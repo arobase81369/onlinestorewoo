@@ -43,11 +43,12 @@ export default function HeroSlider() {
   }, []);
 
   return (
-    <div className="relative w-full h-[30vh] md:h-[70vh] overflow-hidden">
+    <div className="max-w-7xl mx-auto">
+    <div className="relative w-full h-[30vh] md:h-[60vh] overflow-hidden rounded-lg">
       {slides.map((slide, index) => (
         <div
           key={slide.id}
-          className={`absolute top-0 left-0 w-full h-full bg-gray-900 transition-opacity duration-1000 ease-in-out ${
+          className={`absolute top-0 left-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
             index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
           }`}
         >
@@ -59,13 +60,13 @@ export default function HeroSlider() {
             objectFit="contain"
             objectPosition="right"
             priority={true}
-            className="brightness-[.55]"
+            className=""
           />
 
           {/* Overlay */}
           <div className="hidden absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
 
-          <div className="absolute inset-0 flex flex-col justify-center items-start px-6 md:px-20 text-white transition-all duration-700">
+          <div className="absolute inset-0 flex flex-col justify-center items-start px-6 md:px-20  transition-all duration-700">
             <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4 animate-fade-in">
               {slide.title}
             </h2>
@@ -74,7 +75,7 @@ export default function HeroSlider() {
             </p>
             <Link
               href={slide.buttonLink}
-              className="bg-blue-600 hover:bg-blue-700 transition px-3 py-2 md:px-6 md:py-3 rounded-full  text-sm md:text-lg"
+              className="bg-gray-900 text-white hover:bg-gray-700 transition px-3 py-2 md:px-6 md:py-3 rounded-full text-sm md:text-lg"
             >
               {slide.buttonText}
             </Link>
@@ -101,17 +102,18 @@ export default function HeroSlider() {
         onClick={() =>
           setCurrentIndex((prev) => (prev - 1 + slides.length) % slides.length)
         }
-        className="absolute top-1/2 left-4 transform -translate-y-1/2 text-white text-3xl z-20"
+        className="absolute top-1/2 left-4 transform -translate-y-1/2  text-3xl z-20"
       >
         ❮
       </button>
       <button
         onClick={() => setCurrentIndex((prev) => (prev + 1) % slides.length)}
-        className="absolute top-1/2 right-4 transform -translate-y-1/2 text-white text-3xl z-20"
+        className="absolute top-1/2 right-4 transform -translate-y-1/2  text-3xl z-20"
       >
         ❯
       </button>
       </div>
+    </div>
     </div>
   );
 }
