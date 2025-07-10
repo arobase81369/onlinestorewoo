@@ -1,119 +1,162 @@
-// ✅ CartPage.jsx
 "use client";
 
 import { useSelector, useDispatch } from "react-redux";
 import { removeFromCart, updateQuantity } from "@/store/cartSlice";
 import { setPickupOption, setShippingAddress } from "@/store/checkoutSlice";
-import { DeleteIcon } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { Trash2 } from "lucide-react";
+import GetAttributes from "./getAttributes";
 
 export default function CartPage() {
   const cartItems = useSelector((state) => state.cart.items);
+  const checkout = useSelector((state) => state.checkout);
   const dispatch = useDispatch();
-  const [pickup, setPickup] = useState(false);
-  const [address, setAddress] = useState("");
+  console.log("cart items");
+  console.log(cartItems);
+
+  const [pickup, setPickup] = useState(checkout?.pickupOption || false);
+  const [address, setAddress] = useState(checkout?.shippingAddress || "");
+
+  useEffect(() => {
+    dispatch(setPickupOption(pickup));
+    if (!pickup) {
+      dispatch(setShippingAddress(address));
+    }
+  }, [pickup, address]);
+
+  const handleQtyChange = (id, qty) => {
+    if (qty > 0) dispatch(updateQuantity({ id, quantity: qty }));
+  };
 
   const getTotal = () =>
-    cartItems.reduce((total, item) => total + item.price * (item.quantity || 1), 0);
-
-  const handleDecrease = (id, currentQty) => {
-    if (currentQty > 1) {
-      dispatch(updateQuantity({ id, quantity: currentQty - 1 }));
-    }
-  };
-
-  const handleIncrease = (id, currentQty) => {
-    dispatch(updateQuantity({ id, quantity: currentQty + 1 }));
-  };
-
-  const handlePickupChange = (e) => {
-    const val = e.target.checked;
-    setPickup(val);
-    dispatch(setPickupOption(val));
-  };
-
-  const handleAddressChange = (e) => {
-    const val = e.target.value;
-    setAddress(val);
-    dispatch(setShippingAddress(val));
-  };
+    cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-      {/* Left: Cart Items */}
-      <div className="md:col-span-2 bg-white p-1 md:p-4 rounded">
-        <h1 className="text-2xl font-bold mb-4">Shopping Cart</h1>
+    <div className="max-w-7xl mx-auto py-8 grid md:grid-cols-3 gap-6">
+      {/* 🛒 Cart Items */}
+      <div className="md:col-span-2">
+        <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
         {cartItems.length === 0 ? (
           <p>Your cart is empty.</p>
         ) : (
-          <ul className="space-y-4">
-            {cartItems.map((item) => {
-              const qty = item.quantity || 1;
-              return (
-                <li key={item.id} className="flex justify-between flex-wrap-mb text-left cart-product-listing align-items-center gap-4 bg-gray-100 p-2 rounded">
-                  <div className="flex gap-6 cart-product-col-1">
-                    <Image width={100} height={100} src={item.image || "/placeholder.png"} alt={item.name} className="w-16 h-16 object-cover" />
-                    <div className="cart-item-content">
-                      <h2 className="text-lg font-medium">{item.name}</h2>
-                      <p className="text-gray-500" dangerouslySetInnerHTML={{ __html: item.price_html }} />
+          <div className="space-y-6">
+            {cartItems.map((item) => (
+              <div
+                key={item.id}
+                className="\ flex align-items-center justify-items-center gap-4 p-4 bg-f2f2f2 rounded"
+              >
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={100}
+                  height={100}
+                  className="w-24 h-24 object-cover cart-product-image"
+                />
+                <div className="cart-product-content">
+                  <h3 className="text-lg font-semibold">{item.name}</h3>
+                  {(item.productid && item.variationid)? (<><GetAttributes productid={item.productid} variantid={item.variationid} /></>) : (<></>)}
+                  
+
+                  {/* 🧩 Show variations if present */}
+                  {item.attributes && (
+                    <div className="text-sm text-gray-500 mt-1 space-y-1">
+                      {Object.entries(item.attributes).map(([key, val]) => (
+                        <div key={key}>
+                          <span className="capitalize">{key.replace("pa_", "")}</span>: {val}
+                        </div>
+                      ))}
                     </div>
-                    </div>
-                 <div className="align-items-center justify-between cart-product-col-1 flex gap-6">
-                 <div className="md:hidden cart-item-button">
-                  <button onClick={() => dispatch(removeFromCart({ id: item.id }))} className="text-red-500 hover:underline text-sm"><DeleteIcon /></button>
+                  )}
+
+                
+
+            
+                </div>
+ 
+ <div className="cart-product-qty flex justify-center">
+                <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleQtyChange(item.id, item.quantity - 1)}
+                      className="px-2 py-1 bg-gray-200 rounded"
+                    >
+                      −
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      onClick={() => handleQtyChange(item.id, item.quantity + 1)}
+                      className="px-2 py-1 bg-gray-200 rounded"
+                    >
+                      +
+                    </button>
                   </div>
-                    <div className="cart-item-quantity">
-                    <div className="flex align-items-center gap-2 mt-1">
-                        <button onClick={() => handleDecrease(item.id, qty)} className="px-2 py-1 bg-gray-300 rounded">-</button>
-                        <span>{qty}</span>
-                        <button onClick={() => handleIncrease(item.id, qty)} className="px-2 py-1 bg-gray-300 rounded">+</button>
-                      </div>
                   </div>
-                  <div className="cart-item-price">
-                    <p className="font-semibold">₹{(item.price * qty).toFixed(2)}</p>
-                    
-                  </div>
-                  <div className="hidden md:block cart-item-button">
-                  <button onClick={() => dispatch(removeFromCart({ id: item.id }))} className="text-red-500 hover:underline text-sm"><DeleteIcon /></button>
-                  </div>
-                  </div>
-                </li>
-              );
-            })}
-          </ul>
+
+                <div className="cart-product-price">
+                  <p className="text-right font-semibold text-lg text-gray-900">
+                    ₹{(item.price * item.quantity).toFixed(2)}
+                  </p>
+                </div>
+                <button
+                    onClick={() => dispatch(removeFromCart({ id: item.id }))}
+                    className="flex justify-center cart-product-remove text-red-500 hover:text-red-700"
+                  >
+                    <Trash2 size={18} />
+                  </button>
+              </div>
+            ))}
+          </div>
         )}
       </div>
 
-      {/* Right: Cart Summary */}
-      <div className="bg-white p-4 rounded">
-        <h2 className="text-xl font-semibold mb-4">Cart Totals</h2>
+      {/* 📦 Summary */}
+      <div className="bg-f2f2f2 p-6 rounded">
+        <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
 
-        <label className="flex items-center gap-2">
-          <input type="checkbox" checked={pickup} onChange={handlePickupChange} />
+        <label className="flex items-center mb-3 gap-2 text-sm">
+          <input
+            type="checkbox"
+            checked={pickup}
+            onChange={(e) => setPickup(e.target.checked)}
+          />
           Pickup from local store
         </label>
 
         {!pickup && (
           <textarea
+            className="w-full border rounded p-2 text-sm"
+            rows={3}
+            placeholder="Enter shipping address"
             value={address}
-            onChange={handleAddressChange}
-            placeholder="Shipping Address"
-            className="w-full mt-4 p-2 border rounded"
+            onChange={(e) => setAddress(e.target.value)}
           />
         )}
 
-        <div className="mt-4 flex justify-between"><span>Subtotal:</span><span> ₹{getTotal().toFixed(2)}</span></div>
-        <div className=" flex justify-between"><span>Shipping:</span><span> {pickup ? "Free (Pickup)" : "₹50.00"}</span></div>
-        <div className="font-semibold text-lg mt-2  flex justify-between"><span>
-          Total:</span><span> ₹{(getTotal() + (pickup ? 0 : 50)).toFixed(2)}
-        </span></div>
+        <div className="mt-4 space-y-2 text-sm">
+          <div className="flex justify-between">
+            <span>Subtotal</span>
+            <span>₹{getTotal().toFixed(2)}</span>
+          </div>
+          <div className="flex justify-between">
+            <span>Shipping</span>
+            <span>{pickup ? "Free" : "₹50"}</span>
+          </div>
+          <hr />
+          <div className="flex justify-between font-semibold text-base">
+            <span>Total</span>
+            <span>
+              ₹{(getTotal() + (pickup ? 0 : 50)).toFixed(2)}
+            </span>
+          </div>
+        </div>
 
         <Link
           href="/checkout"
-          className={`block text-center w-full mt-4 px-4 py-2 rounded ${
-            !pickup && !address ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 text-white"
+          className={`block text-center mt-5 py-2 rounded font-medium ${
+            pickup || address
+              ? "bg-blue-600 text-white hover:bg-blue-700"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed"
           }`}
         >
           Proceed to Checkout

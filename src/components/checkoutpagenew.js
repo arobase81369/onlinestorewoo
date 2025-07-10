@@ -9,16 +9,19 @@ import { clearCart } from "../store/cartSlice";
 
 export default function CheckoutPagenew() {
   const cartItems = useSelector((state) => state.cart.items);
-  const user = useSelector((state) => state.user.user); // must include user.token
-  console.log("user");
-  console.log(user);
-  const router = useRouter();
+  const user = useSelector((state) => state.user.user);
+  const checkout = useSelector((state) => state.checkout);
   const dispatch = useDispatch();
+  const router = useRouter();
+
+
+  console.log(checkout);
+  const { shippingAddress: shipping, coupon, taxAmount, pickupOption } = checkout;
 
   const [form, setForm] = useState({
-    name: user?.name,
-    email: user?.email,
-    address: "12-11-1200",
+    name: user?.name || "",
+    email: user?.email || "",
+    address: "",
   });
 
   const getTotal = () =>
@@ -32,37 +35,71 @@ export default function CheckoutPagenew() {
   };
 
   const createCustomOrder = async () => {
-    const raw = JSON.stringify({
-      user_id: user?.id || 0,
-      products: cartItems.map((item) => ({
+    const taxRate = parseFloat(taxAmount || 0);
+
+    const lineItems = cartItems.map((item) => {
+      const subtotal = item.price * item.quantity;
+      const itemTax = (subtotal * taxRate) / 100;
+      return {
         product_id: item.id,
         quantity: item.quantity,
-      })),
+        price: item.price,
+        total: subtotal.toFixed(2),
+        total_tax: itemTax.toFixed(2),
+        taxes: [
+          {
+            id: 1, // Change if different tax ID
+            total: itemTax.toFixed(2),
+          },
+        ],
+      };
+    });
+
+    const totalTax = lineItems.reduce(
+      (sum, item) => sum + parseFloat(item.total_tax),
+      0
+    );
+
+    const raw = JSON.stringify({
+      user_id: user?.id || 0,
+      coupon: coupon?.code || "",
+      products: lineItems,
       billing: {
-        first_name: form.name,
+        first_name: shipping?.fullName || form.name,
         last_name: "",
-        email: form.email,
-        phone: "1234567890",
-        address_1: form.address,
-        city: "City",
-        state: "State",
-        postcode: "000000",
-        country: "IN",
+        email: shipping?.email || form.email,
+        phone: shipping?.phone || "1234567890",
+        address_1: shipping?.address || form.address,
+        city: shipping?.city || "City",
+        state: shipping?.state || "TS",
+        postcode: shipping?.pincode || "500001",
+        country: shipping?.country || "IN",
       },
-      shipping: {
-        first_name: form.name,
-        last_name: "",
-        address_1: form.address,
-        city: "City",
-        state: "State",
-        postcode: "000000",
-        country: "IN",
-      },
-      coupon: "",
+      shipping: pickupOption
+        ? {}
+        : {
+            first_name: shipping?.fullName || form.name,
+            last_name: "",
+            address_1: shipping?.address || form.address,
+            city: shipping?.city || "City",
+            state: shipping?.state || "TS",
+            postcode: shipping?.pincode || "500001",
+            country: shipping?.country || "IN",
+          },
+      tax_lines: [
+        {
+          rate_code: "GST IN 18%",
+          rate_id: 1,
+          label: "GST",
+          compound: false,
+          tax_total: totalTax.toFixed(2),
+          shipping_tax_total: "0",
+        },
+      ],
       shipping_method: {
         method_id: "flat_rate",
-        label: "Flat Rate",
-        total: 10,
+        label: pickupOption ? "Pickup" : "Flat Rate",
+        total: pickupOption ? 0 : 50,
       },
     });
 
@@ -89,19 +126,15 @@ export default function CheckoutPagenew() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!form.name || !form.email || !form.address) {
+    if (!form.name || !form.email || (!form.address && !shipping?.address)) {
       alert("Please fill all fields");
       return;
     }
 
     try {
       const order = await createCustomOrder();
-      console.log("order-data");
-      console.log(order);
       dispatch(clearCart());
       router.push(`/success?link=${encodeURIComponent(order.order_id)}`);
-   //   router.push(`/success?link=${encodeURIComponent(order?.order_url || "/")}`);
-
     } catch (error) {
       console.error("Order Error:", error);
       alert("Failed to place order");
@@ -109,19 +142,28 @@ export default function CheckoutPagenew() {
   };
 
   return (
-    <div className="p-4 bg-f2f2f2 max-w-3xl mx-auto">
-      <div className="my-6">
-        <Link href="/" className="bg-gray-700 text-white text-sm px-2 py-2 rounded mb-10">Back to List</Link>
-      </div>
+    <div className="py-9 px-4 bg-f2f2f2 max-w-3xl mx-auto my-4">
 
-      <h1 className="text-2xl font-bold mb-4">Checkout Page</h1>
-      <p className="text-sm mb-2">Logged in as: {user?.email}</p>
+      <div className="flex justify-between">
+      <h1 className="text-xl font-bold mb-4">Checkout Payment</h1>
+      <div className="">
+        <Link href="/cart" className="bg-gray-700 text-white text-sm px-2 py-2 rounded mb-10">
+          Back to cart
+        </Link>
+      </div>
+      </div>
+   
+
+      
+    
+      <p className="text-sm mb-2 hidden">Logged in as: {user?.email}</p>
 
       <form onSubmit={handleSubmit} className="space-y-4">
+        <div className="hidden">
         <input
           type="text"
           name="name"
-          placeholder={form.name}
+          placeholder="Full Name"
           value={form.name}
           onChange={handleChange}
           className="w-full bg-gray-200 px-4 py-2 rounded"
@@ -129,20 +171,20 @@ export default function CheckoutPagenew() {
         <input
           type="email"
           name="email"
-          placeholder={form.email}
+          placeholder="Email Address"
           value={form.email}
           onChange={handleChange}
           className="w-full bg-gray-200 px-4 py-2 rounded"
         />
         <textarea
           name="address"
-          placeholder={form.address}
+          placeholder="Billing/Shipping Address"
           value={form.address}
           onChange={handleChange}
           className="w-full bg-gray-200 px-4 py-2 rounded"
         />
-
-        <h3 className="text-lg font-semibold mt-6">Order Summary</h3>
+</div>
+        <h3 className="text font-semibold mt-4 mb-2">Order Summary</h3>
         <ul className="space-y-4">
           {cartItems.map((item) => (
             <li
@@ -150,14 +192,13 @@ export default function CheckoutPagenew() {
               className="bg-white flex items-center justify-between p-2 rounded"
             >
               <div className="flex items-center gap-4">
-                <Image width={100} height={100}
-                  src={item.images[0]?.src}
-                  alt={item.name}
-                  className="w-16 h-16 object-cover"
-                />
+                <Image src={item.image} width={60} height={60} alt={item.name} className="rounded" />
                 <div>
                   <h2 className="text-md font-medium">{item.name}</h2>
-                  <p className="text-sm text-gray-600" dangerouslySetInnerHTML={{ __html: item.price_html }} />
+                  <p
+                    className="text-sm text-gray-600"
+                    dangerouslySetInnerHTML={{ __html: item.price_html }}
+                  />
                   <p className="text-sm">Qty: {item.quantity}</p>
                 </div>
               </div>
@@ -168,16 +209,56 @@ export default function CheckoutPagenew() {
           ))}
         </ul>
 
-        <p className="font-semibold text-right mt-4">
-          Total: ₹{getTotal().toFixed(2)}
-        </p>
+        {/* Price Breakdown */}
+        <h3 className="text text-left mb-2 font-semibold mt-4">Cart Totals</h3>
+<div className="px-6 py-4 bg-white rounded">
+<div className="space-y-1 text-right text-sm">
+  <div className="flex justify-between border-b border-gray-300 py-2">
+    <span>Subtotal:</span>
+    <span>₹{getTotal().toFixed(2)}</span>
+  </div>
+  {checkout?.coupon?.discount > 0 && (
+    <div className="flex justify-between text-green-600 font-medium border-b border-gray-300 py-2">
+      <span>Coupon ({checkout?.coupon?.code})</span>
+      <span>- ₹{checkout?.coupon?.discount.toFixed(2)}</span>
+    </div>
+  )}
+
+  {!checkout.pickupOption && (
+    <div className="flex justify-between border-b border-gray-300 py-2">
+      <span>Shipping</span>
+      <span>₹{checkout?.shippingAmount?.toFixed(2) || 50}</span>
+    </div>
+  )}
+
+  {checkout?.taxAmount > 0 && (
+    <div className="flex justify-between border-b border-gray-300 py-2">
+      <span>Tax</span>
+      <span>₹{checkout?.taxAmount.toFixed(2)}</span>
+    </div>
+  )}
+
+  <div className="flex justify-between font-bold text-base py-4">
+    <span>Grand Total</span>
+    <span>
+      ₹
+      {(
+        getTotal() -
+        (checkout?.coupon?.discount || 0) +
+        (checkout?.pickupOption ? 0 : checkout?.shippingAmount || 50) +
+        (checkout?.taxAmount || 0)
+      ).toFixed(2)}
+    </span>
+  </div>
+</div>
 
         <button
           type="submit"
-          className="mt-6 w-full bg-green-600 hover:bg-gray-700 text-white px-4 py-2 rounded"
+          className="mt-6 w-full bg-gray-900 hover:bg-gray-700 text-white text-lg px-4 py-2 rounded"
         >
           Place Order
         </button>
+        </div>
       </form>
     </div>
   );

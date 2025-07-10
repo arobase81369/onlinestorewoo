@@ -8,12 +8,14 @@ import { persistReducer, persistStore } from "redux-persist";
 import counterReducer from "./counterSlice";
 import cartReducer from "./cartSlice";
 import userReducer from "./userSlice";
-import CheckoutReducer from "@/app/checkout/page";
+import checkoutReducer from "./checkoutSlice";
+
 
 const rootReducer = combineReducers({
   counter: counterReducer,
   cart: cartReducer,
-  user: userReducer
+  user: userReducer,
+  checkout: checkoutReducer
 });
 
 const persistConfig = {

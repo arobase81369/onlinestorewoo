@@ -94,7 +94,7 @@ export default function SearchBar() {
           {suggestions.map((product) => (
             <Link
               key={product.id}
-              href={`/product/${product.id}`}
+              href={`/product/${product.slug}`}
               className="flex items-center gap-4 p-2 hover:bg-gray-100 border-b"
               onClick={() => clearSearch()}
             >

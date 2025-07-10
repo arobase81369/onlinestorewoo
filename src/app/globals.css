@@ -70,6 +70,36 @@ li.cart-product-listing img {
 }
 
 
+/* Cart page */
+
+
+.cart-product-image {
+ /* flex-basis: 100px; */
+  width: 80px;
+  height: auto;
+}
+
+.cart-product-content {
+  width: 35%;
+}
+
+.cart-product-qty
+ {
+    width: 20%;
+}
+
+.cart-product-price
+ {
+    width: 10%;
+    text-align: center;
+}
+
+.cart-product-remove
+ {
+    flex-basis: 10%;
+}
+
+
 @media screen and (min-width:500px) {
 
 .cart-item-price {

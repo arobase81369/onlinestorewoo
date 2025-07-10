@@ -70,6 +70,8 @@ export default function ProductDetailPage() {
       price: parseFloat(selectedVariation?.price || product.sale_price || product.price),
       image: selectedVariation?.image || product.image,
       quantity: selectedQty,
+      variationid: selectedVariation?.id,
+      productid: product.id
     };
     dispatch(addToCart(item));
   };

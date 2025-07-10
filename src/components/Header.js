@@ -38,6 +38,10 @@ export default function Header() {
           Online Store
         </Link>
 
+        <div className="w-64">
+            <SearchBar />
+          </div>
+
         {/* Hamburger icon */}
         <button
           className="md:hidden text-gray-700"
@@ -56,9 +60,7 @@ export default function Header() {
 
         {/* Right section */}
         <div className="hidden md:flex items-center gap-4">
-          <div className="w-64">
-            <SearchBar />
-          </div>
+         
 
           {user ? (
             <div className="flex items-center gap-2">
@@ -125,11 +127,6 @@ export default function Header() {
                 Login
               </button>
             )}
-          </div>
-
-          {/* Mobile Search */}
-          <div className="mt-4">
-            <SearchBar />
           </div>
 
           {/* Cart */}

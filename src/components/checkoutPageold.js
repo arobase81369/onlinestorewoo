@@ -9,6 +9,63 @@ import Image from "next/image";
 import { useDispatch } from "react-redux";
 import { clearCart } from "../store/cartSlice";
 
+
+/**
+ * 
+ * 
+  "payment_method": "cod",
+  "payment_method_title": "Cash on Delivery",
+  "set_paid": true,
+  "billing": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "address_1": "123 Main St",
+    "city": "Hyderabad",
+    "state": "TS",
+    "postcode": "500001",
+    "country": "IN",
+    "email": "john@example.com",
+    "phone": "1234567890"
+  },
+  "shipping": {
+    "first_name": "John",
+    "last_name": "Doe",
+    "address_1": "123 Main St",
+    "city": "Hyderabad",
+    "state": "TS",
+    "postcode": "500001",
+    "country": "IN"
+  },
+  "line_items": [
+  {
+    "product_id": 82,
+    "quantity": 1,
+    "price": 100,
+    "total": "100",
+    "total_tax": "50",
+    "taxes": [
+      {
+        "id": 2,
+        "total": "50"
+      }
+    ]
+  }
+],
+"tax_lines": [
+  {
+    "rate_code": "GST IN 18%",
+    "rate_id": 2,
+    "label": "GST",
+    "compound": false,
+    "tax_total": "50",
+    "shipping_tax_total": "0"
+  }
+]
+
+}
+
+ */
+
 export default function CheckoutPageold() {
   const cartItems = useSelector((state) => state.cart.items);
   const { user } = useSelector((state) => state.user);
