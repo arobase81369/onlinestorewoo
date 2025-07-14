@@ -80,8 +80,8 @@ export default function ProductList({ categories}) {
   if (loading) return <div className="text-center py-12">Loading products...</div>;
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <h2 className="text-2xl font-bold mb-6">Shop All Products</h2>
+    <div className="max-w-7xl mx-auto px-4 py-4 md:py-8">
+      <h2 className="text-lg md:text-2xl font-bold mb-4 md:mb-6">Shop All Products</h2>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
         {products.map((product) => {
           const isSimple = product.variations.length === 0;
@@ -97,7 +97,7 @@ export default function ProductList({ categories}) {
                   alt={product.name}
                   width={400}
                   height={300}
-                  className="w-full h-64 object-cover rounded-lg"
+                  className="w-full h-40 md:h-64 object-cover rounded-lg"
                 />
                 <div className="absolute top-20 left-0"><span className="bg-light-danger text-danger font-bold px-4 py-2">10% Off</span></div>
                 </div>

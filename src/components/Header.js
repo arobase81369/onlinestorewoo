@@ -33,8 +33,8 @@ export default function Header() {
     <header className="bg-white shadow sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className="text-xl font-bold text-gray-800">
-          <span className="hidden md:block">Online Store</span>
+        <Link href="/" className=" font-bold text-gray-800">
+          <span className="hidden md:block text-xl">Online Store</span>
           <span className="md:hidden">Store</span>
         </Link>
 

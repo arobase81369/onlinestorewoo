@@ -33,7 +33,7 @@ const GetAttributes = ({productid, variantid}) => {
 
   return (
     <div className="text-sm">
-        <div><span className="fs-12">Attributes</span></div>
+        <div className="hidden"><span className="fs-12">Attributes</span></div>
         <div className="flex gap-2">
         {attr.length > 0? (
             attr.map((item, index) => (

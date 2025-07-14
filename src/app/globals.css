@@ -103,6 +103,12 @@ li.cart-product-listing img {
   max-width: 100px;
 }
 
+.lh {
+  line-height: normal;
+}
+
+
+
 
 @media screen and (min-width:500px) {
 
@@ -125,6 +131,10 @@ li.cart-product-listing img {
 @media screen and (max-width:500px) {
   .text-lg {
     font-size: 15px !important;
+  }
+
+  .fs-mb-10px {
+    font-size: 10px;
   }
 
   body {

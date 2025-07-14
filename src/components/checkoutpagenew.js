@@ -208,7 +208,7 @@ export default function CheckoutPagenew() {
   };
 
   return (
-    <div className="py-9 px-4 bg-f2f2f2 max-w-3xl mx-auto my-4">
+    <div className="py-4 md:py-9 px-2 md:px-4 bg-f2f2f2 max-w-3xl mx-auto my-2 md:my-4">
 
       <div className="flex justify-between">
       <h1 className="text-xl font-bold mb-4">Checkout Payment</h1>
@@ -251,7 +251,7 @@ export default function CheckoutPagenew() {
         />
 </div>
         <h3 className="text font-semibold mt-4 mb-2">Order Summary</h3>
-        <ul className="space-y-4">
+        <ul className="space-y-2 md:space-y-4">
           {cartItems.map((item) => (
             <li
               key={item.id}

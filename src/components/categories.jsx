@@ -1,12 +1,11 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 
-const CategoriesPage = () => {
+const CategorySlider = () => {
   const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true);
 
   const ck = process.env.NEXT_PUBLIC_WC_KEY;
   const cs = process.env.NEXT_PUBLIC_WC_SECRET;
@@ -18,49 +17,70 @@ const CategoriesPage = () => {
           `https://arobasedesigns.in/reactwpapi/wp-json/wc/v3/products/categories?consumer_key=${ck}&consumer_secret=${cs}`
         );
         const data = await res.json();
-        setCategories(data);
-      } catch (error) {
-        console.error("Failed to fetch categories", error);
-      } finally {
-        setLoading(false);
+        setCategories(data.filter((cat) => cat.count > 0));
+      } catch (err) {
+        console.error("Error fetching categories", err);
       }
     };
 
     fetchCategories();
   }, []);
 
-  if (loading) {
-    return <p className="text-center py-10">Loading categories...</p>;
-  }
-
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold mb-6 hidden">Product Categories</h1>
-      <div className="grid grid-cols-2 md:grid-cols-6 gap-6">
-        {categories
-          .filter((cat) => cat.count > 0)
-          .map((category) => (
-            <Link
-              key={category.id}
-              href={`/category/${category.slug}`}
-              className="block bg-f2f2f2 rounded-lg p-4 shadow hover:shadow-md rounded text-center "
-            >
-              {category.image?.src && (
-                <Image
-                  src={category.image.src}
-                  alt={category.name}
-                  width={200}
-                  height={200}
-                  className="mx-auto object-contain h-40 w-auto"
-                />
-              )}
-              <h2 className="mt-2 font-semibold">{category.name}</h2>
-              <p className="text-sm text-gray-600 fs-12">{category.count} Products</p>
-            </Link>
-          ))}
+    <div className="max-w-7xl mx-auto">
+    <div className="overflow-x-auto whitespace-nowrap pt-4 px-2 md:px-4 py-2 md:py-4">
+      <div className="md:flex hidden gap-2 md:gap-4">
+        {categories.map((cat) => (
+          <Link
+            href={`/category/${cat.slug}`}
+            key={cat.id}
+            className="flex-shrink-0 w-20 flex-1 bg-gray-100 rounded md:rounded-lg p-2 md:p-3 text-center shadow hover:shadow-md transition"
+          >
+            {cat.image?.src ? (
+              <Image
+                src={cat.image.src}
+                alt={cat.name}
+                width={80}
+                height={80}
+                className="mx-auto mb-2 object-contain h-15"
+              />
+            ) : (
+              <div className="h-20 flex items-center justify-center text-gray-400 text-sm">
+                No Image
+              </div>
+            )}
+            <p className="text-sm fs-mb-10px font-medium">{cat.name}</p>
+          </Link>
+        ))}
       </div>
+
+      <div className="md:hidden flex gap-2 md:gap-4">
+        {categories.map((cat) => (
+          <Link
+            href={`/category/${cat.slug}`}
+            key={cat.id}
+            className="flex-shrink-0 w-20  bg-gray-100 rounded md:rounded-lg p-2 md:p-3 text-center shadow hover:shadow-md transition"
+          >
+            {cat.image?.src ? (
+              <Image
+                src={cat.image.src}
+                alt={cat.name}
+                width={80}
+                height={80}
+                className="mx-auto mb-2 object-contain h-15"
+              />
+            ) : (
+              <div className="h-20 flex items-center justify-center text-gray-400 text-sm">
+                No Image
+              </div>
+            )}
+            <p className="text-sm fs-mb-10px font-medium">{cat.name}</p>
+          </Link>
+        ))}
+      </div>
+    </div>
     </div>
   );
 };
 
-export default CategoriesPage;
+export default CategorySlider;

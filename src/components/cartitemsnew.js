@@ -188,18 +188,19 @@ export default function CartPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto py-8 grid md:grid-cols-3 gap-6">
+    <div className="md:grid md:grid-cols-3 gap-6">
       {/* Cart Items */}
       <div className="md:col-span-2">
-        <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
+        <h2 className="text-lg md:text-2xl font-bold mt-2 mb-4">Shopping Cart</h2>
         {cartItems.length === 0 ? (
           <p>Your cart is empty.</p>
         ) : (
-          <div className="space-y-6">
+          <div className="space-y-2 md:space-y-4">
             {cartItems.map((item) => (
+              <div key={item.id}>
               <div
-                key={item.id}
-                className="\ flex align-items-center justify-items-center gap-4 p-4 bg-f2f2f2 rounded"
+                
+                className="\ hidden md:flex align-items-center justify-items-center gap-4 p-2 md:p-4 bg-f2f2f2 rounded"
               >
                 <Image
                   src={item.image}
@@ -263,6 +264,80 @@ export default function CartPage() {
 
                 </div>
               </div>
+
+
+
+              <div
+                className="\ md:hidden flex justify-items-center gap-2 p-2 bg-f2f2f2 rounded"
+              >
+                <Image
+                  src={item.image}
+                  alt={item.name}
+                  width={100}
+                  height={100}
+                  className="w-24 h-24 object-cover cart-product-image"
+                />
+               
+
+                <div className="flex-1">
+
+
+                <div className="flex justify-between">
+                  <div className="mb-2">
+                  <h3 className="text-lg font-semibold">{item.name}</h3>
+                  {(item.productid && item.variationid) ? (<><GetAttributes productid={item.productid} variantid={item.variationid} /></>) : (<></>)}
+
+                  {/* 🧩 Show variations if present */}
+                  {item.attributes && (
+                    <div className="text-sm text-gray-500 mt-1 space-y-1">
+                      {Object.entries(item.attributes).map(([key, val]) => (
+                        <div key={key}>
+                          <span className="capitalize">{key.replace("pa_", "")}</span>: {val}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+</div>
+<button
+                  onClick={() => dispatch(removeFromCart({ id: item.id }))}
+                  className="flex justify-center text-red-500 hover:text-red-700"
+                >
+                  <Trash2 size={18} />
+                </button>
+                </div>
+
+<div className="flex align-items-center justify-between flex-1 flex-wrap gap-4">
+                <div className=" flex justify-center">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleQtyChange(item.id, item.quantity - 1)}
+                      className="px-2 py-1 bg-gray-200 rounded"
+                    >
+                      −
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      onClick={() => handleQtyChange(item.id, item.quantity + 1)}
+                      className="px-2 py-1 bg-gray-200 rounded"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+
+                <div className="">
+                  <p className="text-right font-semibold text-lg text-gray-900">
+                    ₹{(item.price * item.quantity).toFixed(2)}
+                  </p>
+                </div>
+
+                </div>
+             
+
+                </div>
+              </div>
+
+              </div>
             ))}
           </div>
         )}
@@ -271,12 +346,11 @@ export default function CartPage() {
      
       {/* Summary */}
       {cartItems.length !== 0 ? (
-      <div className="bg-gray-50 p-2 md:p-6 rounded shadow">
+      <div className="bg-gray-50 p-2 md:p-6 rounded shadow mt-6 mb-12">
         <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
 
         {/* Coupon Field */}
         <div className="mb-4">
-          <span>Code: {checkout.coupon.discount}</span>
           <div className="flex gap-2">
             <input
               type="text"

@@ -44,7 +44,7 @@ export default function HeroSlider() {
 
   return (
     <div className="max-w-7xl mx-auto">
-    <div className="relative w-full h-[30vh] md:h-[60vh] overflow-hidden rounded-lg">
+    <div className="relative w-full h-[30vh] md:h-[60vh] overflow-hidden rounded-lg  bg-f2f2f2">
       {slides.map((slide, index) => (
         <div
           key={slide.id}
@@ -60,14 +60,14 @@ export default function HeroSlider() {
             objectFit="contain"
             objectPosition="right"
             priority={true}
-            className=""
+            className="hidden md:block"
           />
 
           {/* Overlay */}
           <div className="hidden absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
 
           <div className="absolute inset-0 flex flex-col justify-center items-start px-6 md:px-20  transition-all duration-700">
-            <h2 className="text-2xl md:text-4xl font-bold mb-2 md:mb-4 animate-fade-in">
+            <h2 className="text-xl md:text-4xl font-bold mb-2 md:mb-4 animate-fade-in lh">
               {slide.title}
             </h2>
             <p className="text-md md:text-xl max-w-lg mb-3 md:mb-6 animate-fade-in delay-300">

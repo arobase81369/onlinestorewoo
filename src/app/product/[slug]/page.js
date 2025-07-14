@@ -88,8 +88,8 @@ export default function ProductDetailPage() {
   const cartItem = getCartItem(variationId || product.id);
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
-      <div className="grid md:grid-cols-2 gap-8">
+    <div className="max-w-7xl mx-auto px-2 md:px-4 py-4 md:py-8">
+      <div className="grid md:grid-cols-2 md:gap-8">
     <div className="">
         <div className="grid md:grid-cols-5 gap-3 sticky top-20">
           <div className="col-span-1 hidden md:block"><Image
@@ -104,7 +104,7 @@ export default function ProductDetailPage() {
           alt={product.name}
           width={500}
           height={500}
-          className="w-full h-auto object-contain rounded-lg"
+          className="w-full h-auto object-contain rounded-lg mb-4"
         /></div>
         </div>
         </div>
@@ -115,10 +115,10 @@ export default function ProductDetailPage() {
                   <div className="flex align-items-center gap-2"><StarIcon className="text-sm" width="15px" /> <span className="font-bold">4.5</span></div>
                 </div>
 
-          <h1 className="text-3xl font-medium mb-2">{product.name}</h1>
+          <h1 className="text-xl md:text-3xl font-medium mb-2">{product.name}</h1>
   
 
-          <div className="text-3xl font-bold text-gray-900 mb-4 mt-10">
+          <div className="text-3xl font-bold text-gray-900 mb-4 mt-4 md:mt-10">
             <span className="text-sm">₹</span>{selectedVariation?.price || product.sale_price || product.price}
             {product.sale_price && (
               <span className="ml-2 text-sm text-gray-500 line-through">
@@ -245,7 +245,7 @@ export default function ProductDetailPage() {
 
         <div className="mt-6">
 <div className="mt-3 mb-2 font-semibold"><label>Delivery Option</label></div>
-<div className="mb-4 text-sm">
+<div className="mb-4 text-sm flex gap-2">
     <input type="number" className="bg-white py-3 px-6 border rounded-lg" placeholder="PINCODE"/>
 <button className="bg-gray-600 text-white ml-2 py-3 px-6 border rounded-lg">Check</button>
         </div>
@@ -253,7 +253,7 @@ export default function ProductDetailPage() {
 
 <div className="mt-6">
 <div className="mt-3 mb-2 flex gap-6 font-semibold align-items-center">
-    <label>Review & Rating</label>
+    <label className="w-40">Review & Rating</label>
     <div className="flex text-xl align-items-center gap-2"><span className="bg-gray-200 rounded-lg px-2 py-2 flex gap-2"><StarIcon className="" width="20px" /> <span className="font-bold">4.5</span> </span><span className="text-gray text-sm">1200 Rating & Reviews</span></div>
     </div>
 <div className="mb-4 text-sm">
