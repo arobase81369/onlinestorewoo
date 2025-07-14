@@ -34,11 +34,12 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
         <Link href="/" className="text-xl font-bold text-gray-800">
-          Online Store
+          <span className="hidden md:block">Online Store</span>
+          <span className="md:hidden">Store</span>
         </Link>
 
         {/* Search */}
-        <div className="w-64">
+        <div className="w-56">
           <SearchBar />
         </div>
 
@@ -82,7 +83,7 @@ export default function Header() {
       {/* Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden bg-white border-t px-4 pb-4 space-y-4">
-          <div className="flex flex-col gap-3 text-sm font-medium">
+          <div className="flex flex-col gap-3 text-sm font-medium py-3">
             <Link href="/" onClick={() => setMenuOpen(false)}>Home</Link>
             <Link href="/product" onClick={() => setMenuOpen(false)}>Our Products</Link>
             <Link href="/brands" onClick={() => setMenuOpen(false)}>Our Brands</Link>
@@ -100,7 +101,7 @@ export default function Header() {
 
       {/* Mobile Bottom Nav */}
       <div className="fixed bottom-0 w-full md:hidden">
-        <div className="flex justify-between gap-4 bg-white py-4 px-5 w-full">
+        <div className="flex justify-between gap-4 shadow-lg bg-white py-4 px-5 w-full">
           {user ? (
             <Link href="/myaccount" onClick={() => setMenuOpen(false)}>
               Hi, {user.name}
@@ -111,7 +112,7 @@ export default function Header() {
                 dispatch(openLogin());
                 setMenuOpen(false);
               }}
-              className="w-full bg-gray-300 py-2 rounded"
+              className="w-full bg-gray-900 py-2 text-white rounded-full max-width-120px"
             >
               Login
             </button>

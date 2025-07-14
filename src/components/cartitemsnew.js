@@ -188,7 +188,7 @@ export default function CartPage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 grid md:grid-cols-3 gap-6">
+    <div className="max-w-7xl mx-auto py-8 grid md:grid-cols-3 gap-6">
       {/* Cart Items */}
       <div className="md:col-span-2">
         <h2 className="text-2xl font-bold mb-4">Shopping Cart</h2>
@@ -199,49 +199,68 @@ export default function CartPage() {
             {cartItems.map((item) => (
               <div
                 key={item.id}
-                className="flex flex-wrap gap-4 p-4 bg-gray-50 border rounded"
+                className="\ flex align-items-center justify-items-center gap-4 p-4 bg-f2f2f2 rounded"
               >
                 <Image
                   src={item.image}
                   alt={item.name}
                   width={100}
                   height={100}
-                  className="w-24 h-24 object-cover rounded"
+                  className="w-24 h-24 object-cover cart-product-image"
                 />
-                <div className="flex-1 min-w-[200px]">
+                <div className="cart-product-content">
                   <h3 className="text-lg font-semibold">{item.name}</h3>
-                  {item.productid && item.variationid && (
-                    <GetAttributes
-                      productid={item.productid}
-                      variantid={item.variationid}
-                    />
+                  {(item.productid && item.variationid) ? (<><GetAttributes productid={item.productid} variantid={item.variationid} /></>) : (<></>)}
+
+
+                  {/* 🧩 Show variations if present */}
+                  {item.attributes && (
+                    <div className="text-sm text-gray-500 mt-1 space-y-1">
+                      {Object.entries(item.attributes).map(([key, val]) => (
+                        <div key={key}>
+                          <span className="capitalize">{key.replace("pa_", "")}</span>: {val}
+                        </div>
+                      ))}
+                    </div>
                   )}
+
+
+
+
                 </div>
-                <div className="flex items-center gap-2">
-                  <button
-                    onClick={() => handleQtyChange(item.id, item.quantity - 1)}
-                    className="px-2 py-1 bg-gray-200 rounded"
-                  >
-                    −
-                  </button>
-                  <span>{item.quantity}</span>
-                  <button
-                    onClick={() => handleQtyChange(item.id, item.quantity + 1)}
-                    className="px-2 py-1 bg-gray-200 rounded"
-                  >
-                    +
-                  </button>
+
+                <div className="flex align-items-center justify-between flex-1 flex-wrap gap-4">
+
+                <div className=" flex justify-center">
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => handleQtyChange(item.id, item.quantity - 1)}
+                      className="px-2 py-1 bg-gray-200 rounded"
+                    >
+                      −
+                    </button>
+                    <span>{item.quantity}</span>
+                    <button
+                      onClick={() => handleQtyChange(item.id, item.quantity + 1)}
+                      className="px-2 py-1 bg-gray-200 rounded"
+                    >
+                      +
+                    </button>
+                  </div>
                 </div>
-                <div className="ml-auto flex flex-col items-end justify-between">
-                  <p className="font-semibold text-lg text-gray-800">
+
+                <div className="">
+                  <p className="text-right font-semibold text-lg text-gray-900">
                     ₹{(item.price * item.quantity).toFixed(2)}
                   </p>
-                  <button
-                    onClick={() => dispatch(removeFromCart({ id: item.id }))}
-                    className="text-red-500 hover:text-red-700"
-                  >
-                    <Trash2 size={18} />
-                  </button>
+                </div>
+                <button
+                  onClick={() => dispatch(removeFromCart({ id: item.id }))}
+                  className="flex justify-center text-red-500 hover:text-red-700"
+                >
+                  <Trash2 size={18} />
+                </button>
+
                 </div>
               </div>
             ))}
@@ -252,7 +271,7 @@ export default function CartPage() {
      
       {/* Summary */}
       {cartItems.length !== 0 ? (
-      <div className="bg-gray-50 p-6 rounded shadow">
+      <div className="bg-gray-50 p-2 md:p-6 rounded shadow">
         <h3 className="text-xl font-semibold mb-4">Order Summary</h3>
 
         {/* Coupon Field */}
@@ -411,7 +430,7 @@ export default function CartPage() {
 
         <Link
           href="/checkout"
-          className={`block text-center mt-5 py-2 rounded font-medium ${
+          className={`block text-center mt-5 py-2 rounded font-medium mobile-checkout-button mb-12 ${
             isShippingValid()
               ? "bg-gray-900 text-white hover:bg-gray-700"
               : "bg-gray-300 text-gray-500 cursor-not-allowed"

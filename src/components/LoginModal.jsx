@@ -35,10 +35,12 @@ export default function AuthModal({ onClose }) {
         const res = await axios.post(
           "https://arobasedesigns.in/reactwpapi/wp-json/jwt-auth/v1/login",
           {
-            login: form.login,
+            username: form.login,
             password: form.password,
           }
         );
+        console.log("login status");
+        console.log(res);
 
         const { token, user_email, user_display_name } = res.data;
 
@@ -54,7 +56,7 @@ export default function AuthModal({ onClose }) {
         setForm({});
         setTimeout(() => {
           setIsLoading(false);
-          onClose(); // or dispatch(closeLogin());
+         dispatch(closeLogin());
         }, 1000);
       }
 

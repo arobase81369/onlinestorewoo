@@ -320,7 +320,7 @@ export default function CheckoutPagenew() {
 
         <button
           type="submit"
-          className="mt-6 w-full bg-gray-900 hover:bg-gray-700 text-white text-lg px-4 py-2 rounded"
+          className="mt-6 w-full bg-gray-900 hover:bg-gray-700 text-white text-lg px-4 py-2 mb-12 rounded"
         >
           Place Order
         </button>
