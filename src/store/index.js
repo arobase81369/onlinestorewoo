@@ -9,13 +9,15 @@ import counterReducer from "./counterSlice";
 import cartReducer from "./cartSlice";
 import userReducer from "./userSlice";
 import checkoutReducer from "./checkoutSlice";
+import modalReducer from "./modalSlice";
 
 
 const rootReducer = combineReducers({
   counter: counterReducer,
   cart: cartReducer,
   user: userReducer,
-  checkout: checkoutReducer
+  checkout: checkoutReducer,
+  modal: modalReducer
 });
 
 const persistConfig = {

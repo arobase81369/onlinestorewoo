@@ -103,7 +103,56 @@ export default function CheckoutPagenew() {
       },
     });
 
-    const res = await fetch(
+
+/*
+    const newrequest = {
+      'user_id': "9",
+      'coupon': "",
+      products: [{
+        product_id: "82",
+        quantity:2,
+        price: "",
+        total: "",
+        total_tax: ""
+      }],
+      billing: {
+        first_name: "first name",
+        last_name: "",
+        email: "",
+        phone: "1234567890",
+        address_1: "",
+        city: "City",
+        state: "TS",
+        postcode: "500001",
+        country: "IN",
+      },
+      shipping: {
+            first_name: "fullName",
+            last_name: "",
+            address_1: "address",
+            city: "City",
+            state: "TS",
+            postcode: "500001",
+            country: "IN",
+          },
+      tax_lines: [
+        {
+          rate_code: "GST IN 18%",
+          rate_id: 1,
+          label: "GST",
+          compound: "",
+          tax_total: 0,
+          shipping_tax_total: "0",
+        },
+      ],
+      shipping_method: {
+        method_id: "flat_rate",
+        label: "Flat Rate",
+        total: pickupOption ? 0 : 50,
+      },
+    }
+
+        const res = await fetch(
       "https://arobasedesigns.in/reactwpapi/wp-json/custom/v1/create-order",
       {
         method: "POST",
@@ -114,6 +163,22 @@ export default function CheckoutPagenew() {
         body: raw,
       }
     );
+*/
+
+    const res = await fetch(
+      "https://arobasedesigns.in/reactwpapi/wp-json/jwt-auth/v1/create-order",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user?.token}`,
+        },
+        body: raw,
+      }
+    );
+
+    console.log("create order response");
+    console.log(raw);
 
     if (!res.ok) {
       throw new Error("Failed to create order");
@@ -125,11 +190,12 @@ export default function CheckoutPagenew() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+/*
     if (!form.name || !form.email || (!form.address && !shipping?.address)) {
       alert("Please fill all fields");
       return;
     }
+      */
 
     try {
       const order = await createCustomOrder();

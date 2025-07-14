@@ -22,15 +22,15 @@ export default function LoginForm() {
     setError("");
 
     try {
-      const res = await axios.post("https://arobasedesigns.in/reactwpapi/wp-json/jwt-auth/v1/token", {
+      const res = await axios.post("https://arobasedesigns.in/reactwpapi/wp-json/jwt-auth/v1/login", {
         username,
         password,
       });
 
-      const { token, user_email, user_display_name } = res.data;
+      const { token, email, name } = res.data;
 
-      dispatch(setUserLogin({ token, email: user_email, name: user_display_name }));
-      dispatch(fetchCustomerIdByEmail(user_email));
+      dispatch(setUserLogin({ token, email: email, name: name }));
+      dispatch(fetchCustomerIdByEmail(email));
 
     //  router.push("/my-account");
     } catch (err) {

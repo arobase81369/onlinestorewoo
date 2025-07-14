@@ -54,12 +54,7 @@ export default function CartPage() {
 
   const isShippingValid = () =>
     pickup ||
-    (shipping.fullName &&
-      shipping.email &&
-      shipping.phone &&
-      shipping.address &&
-      shipping.city &&
-      shipping.state &&
+    (shipping.state &&
       shipping.pincode &&
       shipping.country);
 
@@ -107,6 +102,7 @@ export default function CartPage() {
   // Fetch shipping + tax on change
   useEffect(() => {
     const calculateCharges = async () => {
+      console.log("testing");
       const subtotal = getSubtotal();
       if (pickup || !isShippingValid()) {
         setShippingCost(0);
@@ -114,7 +110,7 @@ export default function CartPage() {
         dispatch(setShippingAmount(0));
         return;
       }
-
+      console.log("shipping rates");
       const payload = {
         products: cartItems.map((item) => ({
           id: item.productid || item.id,
@@ -125,7 +121,10 @@ export default function CartPage() {
         postcode: shipping.pincode,
       };
 
+      
+
       try {
+       
         // Shipping API
         const shipRes = await fetch(
           "https://arobasedesigns.in/reactwpapi/wp-json/custom-shipping/v1/rates",
@@ -136,6 +135,7 @@ export default function CartPage() {
           }
         );
         const shipData = await shipRes.json();
+        
         setShippingCost(Math.ceil(shipData?.rates?.[0]?.cost || 50));
         dispatch(setShippingAmount(Math.ceil(shipData?.rates?.[0]?.cost || 50)));
       } catch (err) {
@@ -160,6 +160,8 @@ export default function CartPage() {
         });
       
         const rate = (match ? parseFloat(match.rate) : 0);
+        console.log("rate");
+        console.log(rate);
 
       //  const rate = parseFloat(taxes?.[0]?.rate || 0);
         const tax = ((subtotal - discountData.amount) * rate) / 100;

@@ -5,19 +5,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { userLogout } from "@/store/userSlice";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Menu, X, PowerOff } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import SearchBar from "./SearchBar";
 import HeaderMiniCart from "./headerminicart";
 import LoginModal from "./LoginModal";
+import { openLogin } from "@/store/modalSlice"; // ✅ import
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
-  const [isLoginOpen, setLoginOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
   const cartItems = useSelector((state) => state.cart.items);
   const user = useSelector((state) => state.user.user);
-
   const dispatch = useDispatch();
   const router = useRouter();
 
@@ -38,11 +37,12 @@ export default function Header() {
           Online Store
         </Link>
 
+        {/* Search */}
         <div className="w-64">
-            <SearchBar />
-          </div>
+          <SearchBar />
+        </div>
 
-        {/* Hamburger icon */}
+        {/* Hamburger */}
         <button
           className="md:hidden text-gray-700"
           onClick={() => setMenuOpen(!menuOpen)}
@@ -58,34 +58,28 @@ export default function Header() {
           <Link href="/offers">Offers</Link>
         </nav>
 
-        {/* Right section */}
+        {/* Right (desktop) */}
         <div className="hidden md:flex items-center gap-4">
-         
-
           {user ? (
-            <div className="flex items-center gap-2">
-              <Link
-                href="/myaccount"
-                className="bg-gray-200 px-4 py-2 rounded-full hover:bg-gray-800 hover:text-white"
-              >
-                Hi, {user.name}
-              </Link>
-            </div>
+            <Link
+              href="/myaccount"
+              className="bg-gray-200 px-4 py-2 rounded-full hover:bg-gray-800 hover:text-white"
+            >
+              Hi, {user.name}
+            </Link>
           ) : (
             <button
-              onClick={() => setLoginOpen(true)}
+              onClick={() => dispatch(openLogin())} // ✅ Redux
               className="bg-gray-300 px-6 py-2 rounded-full"
             >
               Login
             </button>
           )}
-
-          {/* Mini Cart */}
           <HeaderMiniCart />
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       {menuOpen && (
         <div className="md:hidden bg-white border-t px-4 pb-4 space-y-4">
           <div className="flex flex-col gap-3 text-sm font-medium">
@@ -95,49 +89,39 @@ export default function Header() {
             <Link href="/offers" onClick={() => setMenuOpen(false)}>Offers</Link>
             <Link href="/support" onClick={() => setMenuOpen(false)}>Support</Link>
           </div>
-          <button
-                  onClick={handleLogout}
-                  className="text-sm text-red-600"
-                >
-                  Logout
-                </button>
+
+          {user && (
+            <button onClick={handleLogout} className="text-sm text-red-600">
+              Logout
+            </button>
+          )}
         </div>
       )}
 
-<div className="fixed bottom-0 w-full md:hidden ">
-        <div className="flex justify-between gap-4 align-items-center bg-white py-4 px-5 w-full">
-
-          
-          {/* Login or Logout */}
-          <div className="mt-4">
-            {user ? (
-              <div className="flex justify-between items-center">
-                <Link href="/myaccount" onClick={() => setMenuOpen(false)}>
-                  Hi, {user.name}
-                </Link>
-              </div>
-            ) : (
-              <button
-                onClick={() => {
-                  setLoginOpen(true);
-                  setMenuOpen(false);
-                }}
-                className="w-full bg-gray-300 py-2 rounded"
-              >
-                Login
-              </button>
-            )}
-          </div>
-
-          {/* Cart */}
-          <div className="mt-4">
-            <HeaderMiniCart />
-          </div>
-          </div>
-          </div>
+      {/* Mobile Bottom Nav */}
+      <div className="fixed bottom-0 w-full md:hidden">
+        <div className="flex justify-between gap-4 bg-white py-4 px-5 w-full">
+          {user ? (
+            <Link href="/myaccount" onClick={() => setMenuOpen(false)}>
+              Hi, {user.name}
+            </Link>
+          ) : (
+            <button
+              onClick={() => {
+                dispatch(openLogin());
+                setMenuOpen(false);
+              }}
+              className="w-full bg-gray-300 py-2 rounded"
+            >
+              Login
+            </button>
+          )}
+          <HeaderMiniCart />
+        </div>
+      </div>
 
       {/* Login Modal */}
-      <LoginModal isOpen={isLoginOpen} onClose={() => setLoginOpen(false)} />
+      <LoginModal />
     </header>
   );
 }
