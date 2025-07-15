@@ -88,8 +88,8 @@ export default function ProductDetailPage() {
   const cartItem = getCartItem(variationId || product.id);
 
   return (
-    <div className="max-w-7xl mx-auto px-2 md:px-4 py-4 md:py-8">
-      <div className="grid md:grid-cols-2 md:gap-8">
+    <div className="max-w-7xl mx-auto px-3 md:px-4 py-4 md:py-8">
+      <div className="md:grid-cols-2 md:gap-8">
     <div className="">
         <div className="grid md:grid-cols-5 gap-3 sticky top-20">
           <div className="col-span-1 hidden md:block"><Image
@@ -245,8 +245,8 @@ export default function ProductDetailPage() {
 
         <div className="mt-6">
 <div className="mt-3 mb-2 font-semibold"><label>Delivery Option</label></div>
-<div className="mb-4 text-sm flex gap-2">
-    <input type="number" className="bg-white py-3 px-6 border rounded-lg" placeholder="PINCODE"/>
+<div className="mb-4 text-sm flex">
+    <input type="number" className="bg-white py-3 px-4 mr-1 md:px-6 border rounded-lg" placeholder="PINCODE"/>
 <button className="bg-gray-600 text-white ml-2 py-3 px-6 border rounded-lg">Check</button>
         </div>
 </div>
