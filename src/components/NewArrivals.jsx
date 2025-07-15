@@ -78,9 +78,9 @@ export default function NewArrivalsSlider() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
+    <div className="max-w-7xl mx-auto px-4 py-3 md:py-10">
       <div className="flex justify-between items-center mb-6">
-        <h2 className="text-xl md:text-2xl font-bold">New Arrivals</h2>
+        <h2 className="text-lg md:text-2xl font-bold">New Arrivals</h2>
         <div className="flex gap-2">
           {categories.map((cat) => (
             <button
@@ -110,7 +110,7 @@ export default function NewArrivalsSlider() {
         {/* Product Slider */}
         <div
           ref={sliderRef}
-          className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth pb-4"
+          className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth"
         >
           {loading ? (
             <p className="py-20 p-4">Loading...</p>

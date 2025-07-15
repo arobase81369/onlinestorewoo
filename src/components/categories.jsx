@@ -54,12 +54,12 @@ const CategorySlider = () => {
         ))}
       </div>
 
-      <div className="md:hidden flex gap-2 md:gap-4">
+      <div className="md:hidden flex gap-3 md:gap-4">
         {categories.map((cat) => (
           <Link
             href={`/category/${cat.slug}`}
             key={cat.id}
-            className="flex-shrink-0 w-20  bg-gray-100 rounded md:rounded-lg p-2 md:p-3 text-center shadow hover:shadow-md transition"
+            className="flex-shrink-0 w-18 bg-gray-100 rounded md:rounded-lg p-2 md:p-3 text-center shadow hover:shadow-md transition"
           >
             {cat.image?.src ? (
               <Image

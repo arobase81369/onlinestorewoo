@@ -10,6 +10,7 @@ import CategoriesPage from '@/components/categories';
 import ProductList from '@/components/productslist';
 import OffersTwoColums from '@/components/offers-two-col';
 import NewArrivals from '@/components/NewArrivals';
+import BrandSlider from '@/components/BrandSlider';
 
 export default function HomePage() {
   const count = useSelector((state) => state.counter.count);
@@ -17,13 +18,16 @@ export default function HomePage() {
 
   return (
     <main>
+      <div className='mb-20 md:mb-10'>
       <HeroSlider />
       <CategoriesPage />
       <OffersTwoColums />
       <NewArrivals />
+      <BrandSlider />
       <div className='max-w-7xl mx-auto hidden'>
       <h1 className="text-xl font-bold mb-2 px-2">Our New Arrivals</h1>
            <div className='p-2'></div>
+      </div>
       </div>
     </main>
 
