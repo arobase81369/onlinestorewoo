@@ -89,8 +89,8 @@ export default function ProductDetailPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-4 py-4 md:py-8">
-      <div className="md:grid-cols-2 md:gap-8">
-    <div className="">
+      <div className="grid md:grid-cols-5 md:gap-8">
+    <div className="col-span-2">
         <div className="grid md:grid-cols-5 gap-3 sticky top-20">
           <div className="col-span-1 hidden md:block"><Image
           src={selectedVariation?.image || product.image}
@@ -108,7 +108,7 @@ export default function ProductDetailPage() {
         /></div>
         </div>
         </div>
-        <div>
+        <div className="col-span-3">
 
         <div className="flex justify-between">
                   <h4 className=" font-bold mb-1">{product.categories[0].name}</h4>

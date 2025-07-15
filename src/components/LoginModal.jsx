@@ -108,7 +108,7 @@ export default function AuthModal({ onClose }) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center">
+    <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4">
       <div className="bg-white p-6 rounded-lg w-full max-w-sm relative shadow-md">
         <button
           className="absolute right-4 top-3 text-xl text-gray-600"
@@ -215,12 +215,12 @@ export default function AuthModal({ onClose }) {
             />
           )}
 
-          {statusText && <p className="text-sm text-blue-600">{statusText}</p>}
+          {statusText && <p className="text-sm text-gray-600">{statusText}</p>}
           {error && <p className="text-sm text-red-500">{error}</p>}
 
           <button
             type="submit"
-            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 text-sm flex items-center justify-center"
+            className="w-full bg-gray-900 text-white py-2 rounded hover:bg-gray-700 text-sm flex items-center justify-center"
             disabled={isLoading}
           >
             {isLoading ? (
@@ -265,7 +265,7 @@ export default function AuthModal({ onClose }) {
                 Don’t have an account?{" "}
                 <button
                   onClick={() => setMode("register")}
-                  className="text-blue-600 underline"
+                  className="text-gray-600 underline"
                 >
                   Sign Up
                 </button>
@@ -283,7 +283,7 @@ export default function AuthModal({ onClose }) {
               Already have an account?{" "}
               <button
                 onClick={() => setMode("login")}
-                className="text-blue-600 underline"
+                className="text-gray-600 underline"
               >
                 Login
               </button>
@@ -294,7 +294,7 @@ export default function AuthModal({ onClose }) {
               Remember your password?{" "}
               <button
                 onClick={() => setMode("login")}
-                className="text-blue-600 underline"
+                className="text-gray-600 underline"
               >
                 Login
               </button>
