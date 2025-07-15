@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { userLogout } from "@/store/userSlice";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Menu, X } from "lucide-react";
+import { Heart, Menu, X } from "lucide-react";
 import SearchBar from "./SearchBar";
 import HeaderMiniCart from "./headerminicart";
 import LoginModal from "./LoginModal";
@@ -16,6 +16,8 @@ export default function Header() {
   const [mounted, setMounted] = useState(false);
 
   const cartItems = useSelector((state) => state.cart.items);
+  const wishlistCount = useSelector((state) => state.wishlist.items.length);
+
   const user = useSelector((state) => state.user.user);
   const dispatch = useDispatch();
   const router = useRouter();
@@ -76,7 +78,17 @@ export default function Header() {
               Login
             </button>
           )}
+          <Link href="/wishlist" className="relative">
+  <Heart className="w-6 h-6" />
+  {wishlistCount > 0 && (
+    <span className="absolute -top-1 -right-2 bg-red-500 text-white rounded-full px-1 text-xs">
+      {wishlistCount}
+    </span>
+  )}
+</Link>
+
           <HeaderMiniCart />
+
         </div>
       </div>
 

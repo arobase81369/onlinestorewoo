@@ -20,6 +20,14 @@
 }
 
 
+/* Hide scrollbar */
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
 
 
 
@@ -73,7 +81,9 @@ li.cart-product-listing img {
   top:20px;
 }
 
-
+.bottom-45 {
+  bottom:45px;
+}
 /* Cart page */
 
 

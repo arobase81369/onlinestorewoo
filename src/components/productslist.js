@@ -3,184 +3,194 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addToCart, updateQuantity } from "@/store/cartSlice";
+import { addToWishlist, removeFromWishlist } from "@/store/wishlistSlice";
 import Image from "next/image";
 import Link from "next/link";
-import { StarIcon } from "lucide-react";
+import { Heart, HeartOff, StarIcon } from "lucide-react";
 
-export default function ProductList({ categories}) {
+export default function ProductsPage() {
   const [products, setProducts] = useState([]);
-  const [paramcat, setParamcat] = useState(categories);
+  const [categories, setCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState("");
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+
   const cartItems = useSelector((state) => state.cart.items);
+  const wishlistItems = useSelector((state) => state.wishlist.items);
+
+  const isWishlisted = (id) => wishlistItems.some((item) => item.id === id);
+  const getCartQty = (id) => cartItems.find((item) => item.id === id)?.quantity || 0;
 
   useEffect(() => {
-    const fetchProducts = async () => {
+    const fetchData = async () => {
       try {
-        const res = await fetch("https://arobasedesigns.in/reactwpapi/wp-json/custom/v1/products");
-        const data = await res.json();
-        let allProducts = data.products || [];
-  
-        if (paramcat !== undefined) {
-          const filtered = allProducts.filter((item) =>
-            item.categories?.some((cat) => cat.slug?.toLowerCase() === paramcat.toLowerCase())
-          );
-          setProducts(filtered);
-        } else {
-          setProducts(allProducts);
-        }
+        const [productRes, categoryRes] = await Promise.all([
+          fetch("https://arobasedesigns.in/reactwpapi/wp-json/custom/v1/products"),
+          fetch("https://arobasedesigns.in/reactwpapi/wp-json/wc/v3/products/categories?consumer_key=" + process.env.NEXT_PUBLIC_WC_KEY + "&consumer_secret=" + process.env.NEXT_PUBLIC_WC_SECRET),
+        ]);
+
+        const productsData = await productRes.json();
+        const categoriesData = await categoryRes.json();
+
+        setProducts(productsData.products || []);
+        setCategories(categoriesData || []);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error("Failed to fetch data:", error);
       } finally {
         setLoading(false);
       }
     };
-  
-    fetchProducts();
-  }, [paramcat]);
-  
-  
+
+    fetchData();
+  }, []);
+
+  const filteredProducts = selectedCategory
+    ? products.filter((item) => item.categories?.some((cat) => cat.slug === selectedCategory))
+    : products;
 
   const handleAddToCart = (product) => {
-    const item = {
-      id: product.id,
-      name: product.name,
-      price: parseFloat(product.price),
-      image: product.image,
-      quantity: 1,
-    };
-    dispatch(addToCart(item));
+    dispatch(
+      addToCart({
+        id: product.id,
+        name: product.name,
+        price: parseFloat(product.price),
+        image: product.image,
+        quantity: 1,
+      })
+    );
   };
 
-  const handleQtyChange = (productId, newQty) => {
+  const handleQtyChange = (id, newQty) => {
     if (newQty > 0) {
-      dispatch(updateQuantity({ id: productId, quantity: newQty }));
+      dispatch(updateQuantity({ id, quantity: newQty }));
     }
   };
 
-  const formatVariations = (variations) => {
-    const attributesMap = {};
-    variations.forEach((variant) => {
-      Object.entries(variant.attributes).forEach(([attr, value]) => {
-        if (!attributesMap[attr]) attributesMap[attr] = new Set();
-        attributesMap[attr].add(value);
-      });
-    });
-    return Object.entries(attributesMap).map(([key, values]) => ({
-      name: key,
-      options: Array.from(values),
-    }));
-  };
-
-  const getCartQty = (productId) => {
-    const item = cartItems.find((item) => item.id === productId);
-    return item?.quantity || 0;
-  };
-
-  if (loading) return <div className="text-center py-12">Loading products...</div>;
-
   return (
-    <div className="max-w-7xl mx-auto px-4 py-4 md:py-8">
-      <h2 className="text-lg md:text-2xl font-bold mb-4 md:mb-6">Shop All Products</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
-        {products.map((product) => {
-          const isSimple = product.variations.length === 0;
-          const attributes = !isSimple ? formatVariations(product.variations) : [];
-          const qty = getCartQty(product.id);
+    <div className="max-w-7xl mx-auto px-4 py-8">
+      <h1 className="text-2xl font-bold mb-6">Shop Products</h1>
 
-          return (
-            <div key={product.id} className="bg-white overflow-hidden transition">
-              <Link href={`/product/${product.slug}`}>
-              <div className="relative">
-                <Image
-                  src={product.image}
-                  alt={product.name}
-                  width={400}
-                  height={300}
-                  className="w-full h-40 md:h-64 object-cover rounded-lg"
-                />
-                <div className="absolute top-20 left-0"><span className="bg-light-danger text-danger font-bold px-4 py-2">10% Off</span></div>
-                </div>
-                
-              </Link>
-              
+      {/* Category Filter */}
+      <div className="mb-6 flex flex-wrap gap-2">
+        <button
+          className={`px-4 py-2 rounded border text-sm ${
+            !selectedCategory ? "bg-gray-900 text-white" : "bg-white border-gray-300"
+          }`}
+          onClick={() => setSelectedCategory("")}
+        >
+          All
+        </button>
+        {categories.map((cat) => (
+          <button
+            key={cat.id}
+            onClick={() => setSelectedCategory(cat.slug)}
+            className={`px-4 py-2 rounded border text-sm ${
+              selectedCategory === cat.slug ? "bg-gray-900 text-white" : "bg-white border-gray-300"
+            }`}
+          >
+            {cat.name}
+          </button>
+        ))}
+      </div>
 
-              <div className="py-4 px-2">
-                <div className="flex justify-between">
-                  <h4 className="text-sm font-semibold mb-1">{product.categories[0].name}</h4>
-                  <div className="flex text-sm align-items-center gap-2"><StarIcon className="text-sm" width="15px" /> <span className="font-bold">4.5</span></div>
-                </div>
-                
-                <h3 className="text-gray-600 mb-2">{product.name}</h3>
-                <div
-                  className="text-sm text-gray-600 mb-2 hidden"
-                  dangerouslySetInnerHTML={{ __html: product.short_description }}
-                />
+      {loading ? (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="animate-pulse bg-gray-100 h-60 rounded"></div>
+          ))}
+        </div>
+      ) : (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+          {filteredProducts.map((product) => {
+            const inWishlist = isWishlisted(product.id);
+            const quantity = getCartQty(product.id);
+            const isSimple = product.variations.length === 0;
 
-                <div className="text-base font-bold text-gray-900">
-                  {product.sale_price ? (
-                    <>
-                      ₹{product.sale_price}{" "}
-                      <span className="line-through text-gray-400 font-medium text-sm">₹{product.regular_price}</span>
-                    </>
+            return (
+              <div key={product.id} className="relative border p-3 rounded bg-white shadow hover:shadow-lg">
+                <button
+                  onClick={() =>
+                    inWishlist
+                      ? dispatch(removeFromWishlist({ id: product.id }))
+                      : dispatch(addToWishlist(product))
+                  }
+                  className="absolute top-2 right-2 z-10"
+                >
+                  {inWishlist ? (
+                    <HeartOff className="text-red-500" size={18} />
                   ) : (
-                    <>₹{product.price}</>
+                    <Heart className="text-gray-400" size={18} />
+                  )}
+                </button>
+
+                <Link href={`/product/${product.slug}`}>
+                  <Image
+                    src={product.image}
+                    alt={product.name}
+                    width={300}
+                    height={200}
+                    className="w-full h-40 object-cover rounded"
+                  />
+                </Link>
+
+                <div className="mt-3">
+                  <h4 className="text-sm font-medium text-gray-700 truncate">{product.name}</h4>
+                  <div className="flex justify-between text-sm text-gray-500 mt-1">
+                    <span>{product.categories?.[0]?.name}</span>
+                    <span className="flex items-center gap-1">
+                      <StarIcon size={14} /> 4.5
+                    </span>
+                  </div>
+
+                  <div className="text-lg font-bold mt-2">
+                    ₹{product.sale_price || product.price}
+                    {product.sale_price && (
+                      <span className="ml-2 text-sm line-through text-gray-400">
+                        ₹{product.regular_price}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* Cart Actions */}
+                  {isSimple ? (
+                    quantity > 0 ? (
+                      <div className="flex items-center justify-between mt-3">
+                        <button
+                          onClick={() => handleQtyChange(product.id, quantity - 1)}
+                          className="px-2 py-1 bg-gray-200 rounded"
+                        >
+                          −
+                        </button>
+                        <span>{quantity}</span>
+                        <button
+                          onClick={() => handleQtyChange(product.id, quantity + 1)}
+                          className="px-2 py-1 bg-gray-200 rounded"
+                        >
+                          +
+                        </button>
+                      </div>
+                    ) : (
+                      <button
+                        onClick={() => handleAddToCart(product)}
+                        className="block mt-3 w-full bg-gray-900 text-white py-2 rounded text-sm hover:bg-gray-700"
+                      >
+                        Add to Cart
+                      </button>
+                    )
+                  ) : (
+                    <Link
+                      href={`/product/${product.slug}`}
+                      className="block mt-3 w-full bg-blue-600 text-white py-2 rounded text-sm text-center hover:bg-blue-700"
+                    >
+                      View Product
+                    </Link>
                   )}
                 </div>
-
-                {/* Show attributes if product has variations */}
-                {attributes.length > 0 && (
-                  <div className="mt-2 text-sm text-gray-700 hidden">
-                    {attributes.map((attr) => (
-                      <div key={attr.name}>
-                        <span className="font-medium capitalize">{attr.name.replace("pa_", "")}:</span>{" "}
-                        {attr.options.map((opt, i) => (
-                          <span key={i} className="inline-block px-1">{opt}</span>
-                        ))}
-                      </div>
-                    ))}
-                  </div>
-                )}
-
-                {/* Action buttons */}
-                {isSimple ? (
-                  qty > 0 ? (
-                    <div className="flex items-center mt-4">
-                      <button
-                        onClick={() => handleQtyChange(product.id, qty - 1)}
-                        className="px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-400"
-                      >
-                        −
-                      </button>
-                      <span className="px-3">{qty}</span>
-                      <button
-                        onClick={() => handleQtyChange(product.id, qty + 1)}
-                        className="px-3 py-1 bg-gray-700 text-white rounded hover:bg-gray-400"
-                      >
-                        +
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      onClick={() => handleAddToCart(product)}
-                      className="px-6 mt-4 bg-gray-900 hover:bg-gray-700 text-white py-2 rounded"
-                    >
-                      Add to Cart
-                    </button>
-                  )
-                ) : (
-                  <Link
-                    href={`/product/${product.slug}`}
-                    className="block mt-4 text-center bg-gray-600 hover:bg-blue-700 text-white py-2 rounded"
-                  >
-                    View Product
-                  </Link>
-                )}
               </div>
-            </div>
-          );
-        })}
-      </div>
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 }

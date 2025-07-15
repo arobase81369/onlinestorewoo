@@ -10,6 +10,7 @@ import cartReducer from "./cartSlice";
 import userReducer from "./userSlice";
 import checkoutReducer from "./checkoutSlice";
 import modalReducer from "./modalSlice";
+import wishlistReducer from "./wishlistSlice";
 
 
 const rootReducer = combineReducers({
@@ -17,7 +18,8 @@ const rootReducer = combineReducers({
   cart: cartReducer,
   user: userReducer,
   checkout: checkoutReducer,
-  modal: modalReducer
+  modal: modalReducer,
+  wishlist: wishlistReducer
 });
 
 const persistConfig = {

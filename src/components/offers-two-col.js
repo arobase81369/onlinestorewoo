@@ -13,8 +13,8 @@ export default function OffersTwoColums() {
               src="https://arobasedesigns.in/images/ecommerce/online-bg.svg" // Replace with your actual image path
               alt="Offer 1"
               width={800}
-              height={400}
-              className="w-full h-full object-cover"
+              height={200}
+              className="w-full object-cover"
             />
           </div>
 
@@ -24,8 +24,8 @@ export default function OffersTwoColums() {
               src="https://arobasedesigns.in/images/ecommerce/online-bg.svg" // Replace with your actual image path
               alt="Offer 2"
               width={800}
-              height={400}
-              className="w-full h-full object-cover"
+              height={200}
+              className="w-full object-cover"
             />
           </div>
         </div>
