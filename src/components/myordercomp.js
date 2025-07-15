@@ -51,7 +51,7 @@ export default function MyOrderscomp() {
       {loading ? (
         <p className="text-gray-500">Loading orders...</p>
       ) : orders.length === 0 ? (
-        <p className="text-gray-600">You haven't placed any orders yet.</p>
+        <p className="text-gray-600">You have not placed any orders yet.</p>
       ) : (
         <ul className="space-y-4">
           {orders.map((order) => (

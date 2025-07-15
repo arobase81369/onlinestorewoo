@@ -4,7 +4,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { increment, decrement } from '../store/counterSlice';
 import Products from '@/components/products';
-import CartPage from '@/components/cartitems';
 import LoginForm from '@/components/login';
 import HeroSlider from '@/components/HeroSlider';
 import CategoriesPage from '@/components/categories';

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const GetAttributes = ({productid, variantid}) => {
+const GetAttributes = ({ productid, variantid }) => {
   const [attr, setAttr] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -10,41 +10,48 @@ const GetAttributes = ({productid, variantid}) => {
   const cs = process.env.NEXT_PUBLIC_WC_SECRET;
 
   useEffect(() => {
-    const fetchCategories = async () => {
+    if (!productid || !variantid) return;
+
+    const fetchAttributes = async () => {
       try {
         const res = await fetch(
-          `https://arobasedesigns.in/reactwpapi//wp-json/wc/v3/products/${productid}/variations/${variantid}?consumer_key=${ck}&consumer_secret=${cs}`
+          `https://arobasedesigns.in/reactwpapi/wp-json/wc/v3/products/${productid}/variations/${variantid}?consumer_key=${ck}&consumer_secret=${cs}`
         );
         const data = await res.json();
-        setAttr(data.attributes);
+
+        if (Array.isArray(data.attributes)) {
+          setAttr(data.attributes);
+        } else {
+          setAttr([]);
+        }
       } catch (error) {
-        console.error("Failed to fetch categories", error);
+        console.error("Failed to fetch variation attributes:", error);
+        setAttr([]);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchCategories();
-  }, []);
+    fetchAttributes();
+  }, [productid, variantid, ck, cs]);
 
-  if (loading) {
-    return <p className="">Loading...</p>;
-  }
+  if (loading) return <p className="text-sm text-gray-500">Loading attributes...</p>;
+
+  if (attr.length === 0) return null;
 
   return (
-    <div className="text-sm">
-        <div className="hidden"><span className="fs-12">Attributes</span></div>
-        <div className="flex gap-2">
-        {attr.length > 0? (
-            attr.map((item, index) => (
-                <div key={index}><span className=""><span className="font-semibold">{item.name}:</span> {item.option}</span></div>
-            )) ) : (<div></div>)
-        }
-</div>
-        </div>
-
-        );
-
-    }
+    <div className="text-sm mt-2">
+      <div className="mb-1 font-semibold text-gray-600 hidden">Attributes:</div>
+      <div className="flex flex-wrap gap-4">
+        {attr.map((item, index) => (
+          <div key={index} className="text-gray-700">
+            <span className="font-medium">{item.name}:</span>{" "}
+            <span>{item.option}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 export default GetAttributes;

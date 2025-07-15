@@ -1,4 +1,3 @@
-import CartPage from "@/components/cartitems";
 import CartItemsnew from "@/components/cartitemsnew";
 
 
