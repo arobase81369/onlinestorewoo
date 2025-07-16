@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import Image from "next/image";
 import { addToCart, updateQuantity } from "@/store/cartSlice";
 import { StarIcon } from "lucide-react";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export default function ProductDetailPage() {
   const { slug } = useParams();
@@ -89,6 +90,8 @@ export default function ProductDetailPage() {
 
   return (
     <div className="max-w-7xl mx-auto px-3 md:px-4 py-4 md:py-8">
+        <div className="mb-4"><Breadcrumbs />
+        </div>
       <div className="grid md:grid-cols-5 md:gap-8">
     <div className="col-span-2">
         <div className="grid md:grid-cols-5 gap-3 sticky top-20">

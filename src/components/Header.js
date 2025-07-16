@@ -63,6 +63,15 @@ export default function Header() {
 
         {/* Right (desktop) */}
         <div className="hidden md:flex items-center gap-4">
+        <Link href="/wishlist" className="relative">
+  <Heart className="w-6 h-6" />
+  {wishlistCount > 0 && (
+    <span className="absolute -top-1 -right-2 bg-red-500 text-white rounded-full px-1 text-xs">
+      {wishlistCount}
+    </span>
+  )}
+</Link>
+
           {user ? (
             <Link
               href="/myaccount"
@@ -78,14 +87,7 @@ export default function Header() {
               Login
             </button>
           )}
-          <Link href="/wishlist" className="relative">
-  <Heart className="w-6 h-6" />
-  {wishlistCount > 0 && (
-    <span className="absolute -top-1 -right-2 bg-red-500 text-white rounded-full px-1 text-xs">
-      {wishlistCount}
-    </span>
-  )}
-</Link>
+
 
           <HeaderMiniCart />
 

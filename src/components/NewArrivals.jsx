@@ -113,7 +113,11 @@ export default function NewArrivalsSlider() {
           className="flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth"
         >
           {loading ? (
-            <p className="py-20 p-4">Loading...</p>
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {[...Array(8)].map((_, i) => (
+              <div key={i} className="animate-pulse bg-gray-100 h-60 rounded"></div>
+            ))}
+          </div>
           ) : products.length === 0 ? (
             <p className="p-4">No products found.</p>
           ) : (

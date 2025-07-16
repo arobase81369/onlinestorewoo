@@ -75,7 +75,7 @@ export default function HeroSlider() {
             </p>
             <Link
               href={slide.buttonLink}
-              className="bg-gray-900 text-white hover:bg-gray-700 transition px-3 py-2 md:px-6 md:py-3 rounded-full text-sm md:text-lg"
+              className="bg-gray-900 text-white hover:bg-gray-700 transition px-3 py-2 md:px-6 md:py-3 rounded-full text-sm md:text"
             >
               {slide.buttonText}
             </Link>

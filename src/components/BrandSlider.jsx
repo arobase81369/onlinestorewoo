@@ -1,34 +1,54 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useRef } from "react";
 
-const brands = [
-  {
-    name: "Levis",
+const brands = 
+[
+    {
+    "id": 43,
+    "name": "adidas",
+    "slug": "adidas",
     image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
-  },
-  {
-    name: "Pepe Jeans",
+    },
+    {
+    "id": 39,
+    "name": "arrow",
+    "slug": "arrow",
     image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
-  },
-  {
-    name: "Levis 2",
+    },
+    {
+    "id": 44,
+    "name": "lee",
+    "slug": "lee",
     image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
-  },
-  {
-    name: "Levis 3",
+    },
+    {
+    "id": 34,
+    "name": "Levis",
+    "slug": "levis",
     image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
-  },
-  {
-    name: "Levis 4",
+    },
+    {
+    "id": 38,
+    "name": "pepe jeans",
+    "slug": "pepe-jeans",
     image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
-  },
-  {
-    name: "Levis 5",
+    },
+    {
+    "id": 41,
+    "name": "peterland",
+    "slug": "peterland",
     image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
-  },
-];
+    },
+    {
+    "id": 42,
+    "name": "prada",
+    "slug": "prada",
+    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
+    }
+    ];
 
 export default function BrandSlider() {
   const sliderRef = useRef();
@@ -42,7 +62,7 @@ export default function BrandSlider() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-3 md:py-10">
+    <div className="max-w-7xl mx-auto px-4 py-3 md:py-4W">
       <h2 className="text-lg md:text-2xl font-bold mb-6">Our Brands</h2>
 
       <div className="relative">
@@ -62,8 +82,9 @@ export default function BrandSlider() {
           {brands.map((brand, index) => (
             <div
               key={index}
-              className="flex-shrink-0 w-15 h-15 rounded-xl bg-gray-100 flex items-center justify-center"
+              className="flex-shrink-0 w-15 h-15 md:w-30 md:h-30 rounded-xl bg-gray-100 flex items-center justify-center"
             >
+                <Link href={`/brands/${brand.slug}`}>
               <Image
                 src={brand.image}
                 alt={brand.name}
@@ -71,6 +92,7 @@ export default function BrandSlider() {
                 height={100}
                 className="object-contain h-16"
               />
+              </Link>
             </div>
           ))}
         </div>

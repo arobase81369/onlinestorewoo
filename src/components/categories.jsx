@@ -34,6 +34,7 @@ const CategorySlider = () => {
           <Link
             href={`/category/${cat.slug}`}
             key={cat.id}
+            title={cat.name}
             className="flex-shrink-0 w-20 flex-1 bg-gray-100 rounded md:rounded-lg p-2 md:p-3 text-center shadow hover:shadow-md transition"
           >
             {cat.image?.src ? (
@@ -59,6 +60,7 @@ const CategorySlider = () => {
           <Link
             href={`/category/${cat.slug}`}
             key={cat.id}
+            title={cat.name}
             className="flex-shrink-0 w-18 bg-gray-100 rounded md:rounded-lg p-2 md:p-3 text-center shadow hover:shadow-md transition"
           >
             {cat.image?.src ? (

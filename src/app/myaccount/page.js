@@ -6,6 +6,7 @@ import { restoreUser, userLogout } from "@/store/userSlice";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import MyOrderscomp from "@/components/myordercomp";
+import Breadcrumbs from "@/components/Breadcrumbs";
 
 export default function MyAccount() {
   const dispatch = useDispatch();
@@ -38,7 +39,10 @@ export default function MyAccount() {
   }
 
   return (
-    <div className="max-w-6xl mx-auto mt-10 p-4">
+    <div className="max-w-7xl mx-auto mt-2 md:mt-10 p-4">
+      <div className="mb-4">
+         <Breadcrumbs />
+      </div>
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {/* Sidebar */}
         <div className="col-span-1 bg-f2f2f2 rounded-lg shadow p-4 h-fit">

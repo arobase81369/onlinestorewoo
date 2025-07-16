@@ -46,7 +46,7 @@ export default function MyOrderscomp() {
 
   return (
     <div className="">
-      <h1 className="text-2xl font-bold mb-4">🧾 My Orders</h1>
+      <h1 className="text-lg md:text-2xl font-bold mb-4">🧾 My Orders</h1>
 
       {loading ? (
         <p className="text-gray-500">Loading orders...</p>
@@ -85,7 +85,7 @@ export default function MyOrderscomp() {
                 <div>
                 <Link
                 href={`/myaccount/myorders/${order.id}`}
-                className="bg-gray-600 hover:bg-gray-900 text-white py-2 px-3 rounded-full text-sm mt-2 inline-block"
+                className="bg-gray-600 hover:bg-gray-900 text-white text-center py-2 px-3 rounded-full text-sm mt-2 inline-block"
               >
                 View Details
               </Link>
