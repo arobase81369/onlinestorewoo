@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { userLogout } from "@/store/userSlice";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Heart, Menu, X } from "lucide-react";
+import { Heart, Menu, ShoppingCartIcon, X } from "lucide-react";
 import SearchBar from "./SearchBar";
 import HeaderMiniCart from "./headerminicart";
 import LoginModal from "./LoginModal";
@@ -35,9 +35,8 @@ export default function Header() {
     <header className="bg-white shadow sticky top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
         {/* Logo */}
-        <Link href="/" className=" font-bold text-gray-800">
-          <span className="hidden md:block text-xl">Online Store</span>
-          <span className="md:hidden">Store</span>
+        <Link href="/" className="flex gap-2 font-bold text-gray-800">
+          <ShoppingCartIcon /> <span className="hidden md:block text-xl">Online Store</span> <span className="md:hidden">Store</span>
         </Link>
 
         {/* Search */}
@@ -54,7 +53,7 @@ export default function Header() {
         </button>
 
         {/* Desktop Nav */}
-        <nav className="hidden md:flex items-center gap-4 font-medium">
+        <nav className="hidden md:flex items-center text-sm font-semibold gap-4">
           <Link href="/">Home</Link>
           <Link href="/product">Our Products</Link>
           <Link href="/brands">Our Brands</Link>

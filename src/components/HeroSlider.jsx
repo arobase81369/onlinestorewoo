@@ -3,30 +3,39 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowBigRightDash, ArrowRight } from "lucide-react";
 
 const slides = [
   {
     id: 1,
-    title: "Transform Your Online Presence",
-    description: "We craft stunning websites and applications tailored to your brand.",
-    image: "https://arobasedesigns.in/images/ecommerce/online-bg.svg",
+    title: "Shop Smart. Live Better.",
+    description: "Discover top trends and unbeatable prices all in one place.",
+    image: "https://arobasedesigns.in/images/ecommerce/slider-images2.svg",
     buttonText: "Explore Services",
     buttonLink: "/services",
   },
   {
     id: 2,
-    title: "Full Stack Web Development",
-    description: "Custom frontend & backend solutions built for performance.",
-    image: "https://arobasedesigns.in/images/ecommerce/online-bg.svg",
-    buttonText: "Get a Quote",
+    title: "Fresh Finds Just In!",
+    description: "Be the first to explore our latest collection of must-haves.",
+    image: "https://arobasedesigns.in/images/ecommerce/slider-images.svg",
+    buttonText: "Explore New Arrivals",
     buttonLink: "/contact",
   },
   {
     id: 3,
-    title: "Drive Growth With Digital Marketing",
-    description: "SEO, Google Ads, social media — all in one place.",
-    image: "https://arobasedesigns.in/images/ecommerce/online-bg.svg",
-    buttonText: "Start Now",
+    title: "Up to 50% Off – Limited Time!",
+    description: "Hurry! Exclusive discounts on clothing, footwear & accessories.",
+    image: "https://arobasedesigns.in/images/ecommerce/slider-images.svg",
+    buttonText: "Grab the Deal",
+    buttonLink: "/marketing",
+  },
+  {
+    id: 4,
+    title: "Your Style, Your Way",
+    description: "Shop curated collections: Men, Women, Kids & More.",
+    image: "https://arobasedesigns.in/images/ecommerce/slider-images.svg",
+    buttonText: "Browse Categories",
     buttonLink: "/marketing",
   },
 ];
@@ -44,7 +53,7 @@ export default function HeroSlider() {
 
   return (
     <div className="max-w-7xl mx-auto">
-    <div className="relative w-full h-[30vh] md:h-[60vh] overflow-hidden rounded-lg  bg-f2f2f2">
+    <div className="relative w-full h-[30vh] md:h-[60vh] overflow-hidden rounded-lg  bg-gray-900">
       {slides.map((slide, index) => (
         <div
           key={slide.id}
@@ -57,7 +66,7 @@ export default function HeroSlider() {
             src={slide.image}
             alt={slide.title}
             layout="fill"
-            objectFit="contain"
+            objectFit="cover"
             objectPosition="right"
             priority={true}
             className="hidden md:block"
@@ -66,7 +75,8 @@ export default function HeroSlider() {
           {/* Overlay */}
           <div className="hidden absolute inset-0 bg-gradient-to-r from-black/60 via-black/20 to-transparent" />
 
-          <div className="absolute inset-0 flex flex-col justify-center items-start px-6 md:px-20  transition-all duration-700">
+          <div className="absolute inset-0 text-white flex flex-col justify-center items-start px-6 md:px-20  transition-all duration-700">
+            <h4 className="">Up to <span className="text-2xl font-bold">50%</span> Off <span className="text-xl font-bold">Summer Styles</span></h4>
             <h2 className="text-xl md:text-4xl font-bold mb-2 md:mb-4 animate-fade-in lh">
               {slide.title}
             </h2>
@@ -75,9 +85,9 @@ export default function HeroSlider() {
             </p>
             <Link
               href={slide.buttonLink}
-              className="bg-gray-900 text-white hover:bg-gray-700 transition px-3 py-2 md:px-6 md:py-3 rounded-full text-sm md:text"
+              className="bg-gray-900 text-white flex align-items-center gap-3 hover:bg-gray-700 transition px-3 py-2 md:px-6 md:py-3 rounded-full text-sm md:text"
             >
-              {slide.buttonText}
+              {slide.buttonText} <ArrowRight width={15}/>
             </Link>
           </div>
         </div>

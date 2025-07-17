@@ -10,43 +10,55 @@ const brands =
     "id": 43,
     "name": "adidas",
     "slug": "adidas",
-    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
+    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/brand-icon-adidas.png",
     },
     {
     "id": 39,
     "name": "arrow",
     "slug": "arrow",
-    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
+    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/brand-icon-nike.png",
     },
     {
     "id": 44,
     "name": "lee",
     "slug": "lee",
-    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
+    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/brand-icon-lee.png",
     },
     {
     "id": 34,
     "name": "Levis",
     "slug": "levis",
-    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
+    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/brand-icon-levis.png",
     },
     {
     "id": 38,
     "name": "pepe jeans",
     "slug": "pepe-jeans",
-    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
+    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/brand-icon-pepe-jeans.png",
     },
     {
     "id": 41,
     "name": "peterland",
     "slug": "peterland",
-    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
+    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/brand-icon-peterengland.png",
     },
     {
     "id": 42,
     "name": "prada",
     "slug": "prada",
-    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/image099.png",
+    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/brand-icon.png",
+    },
+    {
+    "id": 42,
+    "name": "nike",
+    "slug": "nike",
+    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/brand-icon-nike.png",
+    },
+    {
+    "id": 42,
+    "name": "puma",
+    "slug": "puma",
+    image: "https://arobasedesigns.in/reactwpapi/wp-content/uploads/2025/07/brand-icon-puma.png",
     }
     ];
 
@@ -62,7 +74,7 @@ export default function BrandSlider() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-3 md:py-4W">
+    <div className="max-w-7xl mx-auto py-3 md:py-4W">
       <h2 className="text-lg md:text-2xl font-bold mb-6">Our Brands</h2>
 
       <div className="relative">

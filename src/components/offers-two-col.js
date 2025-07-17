@@ -5,12 +5,12 @@ import Image from "next/image";
 export default function OffersTwoColums() {
   return (
     <section className=" bg-white">
-      <div className="max-w-7xl mx-auto px-2 md:px-4 py-2">
+      <div className="max-w-7xl mx-auto py-2">
         <div className="grid grid-cols-2 gap-2 md:gap-6">
           {/* Banner 1 */}
           <div className="bg-gray-200 rounded-lg md:rounded-3xl overflow-hidden">
             <Image
-              src="https://arobasedesigns.in/images/ecommerce/online-bg.svg" // Replace with your actual image path
+              src="https://arobasedesigns.in/images/ecommerce/banner-image1.svg" // Replace with your actual image path
               alt="Offer 1"
               width={800}
               height={200}

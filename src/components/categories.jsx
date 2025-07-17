@@ -28,7 +28,7 @@ const CategorySlider = () => {
 
   return (
     <div className="max-w-7xl mx-auto">
-    <div className="overflow-x-auto whitespace-nowrap pt-4 px-2 md:px-4 py-2 md:py-4">
+    <div className="overflow-x-auto whitespace-nowrap pt-4 px-2 md:px-0 py-2 md:py-4">
       <div className="md:flex hidden gap-2 md:gap-4">
         {categories.map((cat) => (
           <Link

@@ -109,7 +109,7 @@ export default function AuthModal({ onClose }) {
 
   return (
     <div className="fixed inset-0 bg-black/40 z-50 flex items-center justify-center px-4">
-      <div className="bg-white p-6 rounded-lg w-full max-w-sm relative shadow-md">
+      <div className="bg-white p-6 rounded-lg w-full max-w-lg relative shadow-md">
         <button
           className="absolute right-4 top-3 text-xl text-gray-600"
           onClick={() => {
@@ -122,9 +122,9 @@ export default function AuthModal({ onClose }) {
         </button>
 
         <div className="text-center mb-4">
-          <h2 className="text-2xl font-bold">
+          <h2 className="text-xl font-bold mb-6">
             {mode === "login"
-              ? "Login"
+              ? "Customer Login"
               : mode === "register"
               ? "Sign Up"
               : "Forgot Password"}
@@ -136,8 +136,8 @@ export default function AuthModal({ onClose }) {
             <>
               <input
                 type="text"
-                placeholder="Email / Username / Phone"
-                className="w-full border px-3 py-2 rounded text-sm"
+                placeholder="Phone Number"
+                className="w-full bg-f2f2f2 px-3 py-3 rounded text"
                 value={form.login || ""}
                 onChange={(e) => setForm({ ...form, login: e.target.value })}
                 required
@@ -145,7 +145,7 @@ export default function AuthModal({ onClose }) {
               <input
                 type="password"
                 placeholder="Password"
-                className="w-full border px-3 py-2 rounded text-sm"
+                className="w-full bg-f2f2f2 px-3 py-3 rounded text"
                 value={form.password || ""}
                 onChange={(e) => setForm({ ...form, password: e.target.value })}
                 required
@@ -158,7 +158,7 @@ export default function AuthModal({ onClose }) {
               <input
                 type="text"
                 placeholder="Full Name"
-                className="w-full border px-3 py-2 rounded text-sm"
+                className="w-full bg-f2f2f2 px-3 py-3 rounded text"
                 value={form.fullname || ""}
                 onChange={(e) =>
                   setForm({ ...form, fullname: e.target.value })
@@ -168,7 +168,7 @@ export default function AuthModal({ onClose }) {
               <input
                 type="text"
                 placeholder="Username"
-                className="w-full border px-3 py-2 rounded text-sm"
+                className="w-full bg-f2f2f2 px-3 py-3 rounded text"
                 value={form.username || ""}
                 onChange={(e) =>
                   setForm({ ...form, username: e.target.value })
@@ -178,7 +178,7 @@ export default function AuthModal({ onClose }) {
               <input
                 type="email"
                 placeholder="Email"
-                className="w-full border px-3 py-2 rounded text-sm"
+                className="w-full bg-f2f2f2 px-3 py-3 rounded text"
                 value={form.email || ""}
                 onChange={(e) => setForm({ ...form, email: e.target.value })}
                 required
@@ -186,7 +186,7 @@ export default function AuthModal({ onClose }) {
               <input
                 type="text"
                 placeholder="Phone"
-                className="w-full border px-3 py-2 rounded text-sm"
+                className="w-full bg-f2f2f2 px-3 py-3 rounded text"
                 value={form.phone || ""}
                 onChange={(e) => setForm({ ...form, phone: e.target.value })}
                 required
@@ -194,7 +194,7 @@ export default function AuthModal({ onClose }) {
               <input
                 type="password"
                 placeholder="Password"
-                className="w-full border px-3 py-2 rounded text-sm"
+                className="w-full bg-f2f2f2 px-3 py-3 rounded text"
                 value={form.password || ""}
                 onChange={(e) =>
                   setForm({ ...form, password: e.target.value })
@@ -208,7 +208,7 @@ export default function AuthModal({ onClose }) {
             <input
               type="email"
               placeholder="Enter your email"
-              className="w-full border px-3 py-2 rounded text-sm"
+              className="w-full bg-f2f2f2 px-3 py-3 rounded text"
               value={form.email || ""}
               onChange={(e) => setForm({ ...form, email: e.target.value })}
               required
@@ -220,7 +220,7 @@ export default function AuthModal({ onClose }) {
 
           <button
             type="submit"
-            className="w-full bg-gray-900 text-white py-2 rounded hover:bg-gray-700 text-sm flex items-center justify-center"
+            className="w-full bg-gray-900 text-white py-2 rounded hover:bg-gray-700 text flex items-center justify-center"
             disabled={isLoading}
           >
             {isLoading ? (

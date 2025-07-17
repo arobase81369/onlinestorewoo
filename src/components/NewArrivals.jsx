@@ -78,7 +78,7 @@ export default function NewArrivalsSlider() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-3 md:py-10">
+    <div className="max-w-7xl mx-auto py-3 md:py-10">
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-lg md:text-2xl font-bold">New Arrivals</h2>
         <div className="flex gap-2">
@@ -124,7 +124,7 @@ export default function NewArrivalsSlider() {
             products.map((product) => (
                 <div key={product.id}>
                      <Link href={`/product/${product.slug}`}>
-              <div className="min-w-[200px] max-w-[200px] flex-shrink-0 bg-f2f2f2 relative rounded-lg"
+              <div className="w-40 md:min-w-[250px] md:max-w-[250px] flex-shrink-0 bg-f2f2f2 relative rounded-lg"
               >
                 {product.sale_price && (
                   <span className="absolute top-2 left-2 bg-red-100 text-red-500 text-xs font-semibold px-2 py-1 rounded">
@@ -139,12 +139,25 @@ export default function NewArrivalsSlider() {
                   className="w-full h-40 object-cover mb-2"
                 />
                 <div className="px-3 py-2">
-                <div className="text-sm font-semibold mb-1">
+                    <div className="flex justify-between">
+                        <div>
+                        <div className="fs-12 text-gray-400 font-semibold mb-1">
                   {product.categories?.[0]?.name || "Brand"}
                 </div>
-                <div className="text-xs text-gray-600 line-clamp-2">
+                        </div>
+                        <div
+                  className="cursor-pointer" >
+                    <div className="flex items-center text-xs gap-1 text-gray-700">
+                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
+                    4.5
+                  </div>
+                 
+                </div>
+                    </div>
+                    <div className="text-sm text-gray-900 line-clamp-2">
                   {product.name}
                 </div>
+               
                 <div className="flex justify-between items-center mt-2">
                   
                   <div className="text-sm font-bold">
@@ -160,14 +173,7 @@ export default function NewArrivalsSlider() {
                   />
                   </div>
                 </div>
-                <div
-                  className="absolute bottom-3 right-3 cursor-pointer bottom-45" >
-                    <div className="flex items-center text-xs gap-1 text-gray-700">
-                    <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
-                    4.5
-                  </div>
-                 
-                </div>
+               
                 </div>
               </div>
               </Link>
